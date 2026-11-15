@@ -1040,13 +1040,228 @@ body.admin-body {
 }
 
 /* ==========================================================================
+   8B. ADVANCED ADMIN COMPONENTS (DYNAMIC PROJECTS, SERVICES & REVIEWS)
+   ========================================================================== */
+.badge-light {
+  background: var(--bg-main) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-light);
+}
+
+.new-project-builder-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  margin-top: 20px;
+  box-shadow: var(--shadow-md);
+  animation: slideToast 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.builder-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 12px;
+}
+
+.builder-header h3 {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.input-with-action {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-with-action input {
+  flex: 1;
+}
+
+.projects-dynamic-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.project-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.project-index-pill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 10px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+  color: var(--text-primary);
+}
+
+.btn-delete-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-delete-card:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.live-link-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--accent-emerald);
+}
+
+.live-link-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-emerald);
+}
+
+/* Services Editor Grid */
+.services-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.service-edit-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.service-edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.service-num-badge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: var(--bg-main);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-full);
+}
+
+/* Reviews Editor Grid */
+.reviews-editor-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin-top: 20px;
+}
+
+.review-edit-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-edit-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stars-badge {
+  color: #f59e0b;
+  font-size: 14px;
+}
+
+/* Settings & Backup Cards */
+.settings-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.settings-action-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.settings-action-card .set-icon {
+  font-size: 28px;
+}
+
+.settings-action-card .set-info {
+  flex: 1;
+  min-width: 240px;
+}
+
+.settings-action-card .set-info h3 {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.settings-action-card .set-info p {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
    9. RESPONSIVE BREAKPOINTS (LAPTOP & MOBILE)
    ========================================================================== */
 @media (max-width: 1080px) {
   .admin-metrics-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-  .portfolio-manager-grid {
+  .portfolio-manager-grid,
+  .projects-dynamic-grid,
+  .services-editor-grid,
+  .reviews-editor-grid {
     grid-template-columns: 1fr;
   }
   .glass-project-editor-card.hero-special {

@@ -274,7 +274,7 @@
           </p>
         </div>
 
-        <div class="glass-capabilities-grid">
+        <div class="glass-capabilities-grid" id="servicesGrid">
           
           <!-- Service 01 -->
           <article class="glass-capability-card" data-service="Web Design & UI/UX">
@@ -427,23 +427,27 @@
           </p>
         </div>
 
-        <div class="glass-showcase-grid">
+        <div class="glass-showcase-grid" id="projectsShowcaseGrid">
           
           <!-- Project 01: Brand & E-commerce -->
           <article class="glass-project-card" id="project01">
-            <div class="project-viewport-frame">
-              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80" alt="Brand & E-commerce" class="project-img" id="imgProject01">
-              <div class="viewport-hud-overlay">
-                <span class="glass-chip-badge">E-Commerce</span>
-                <span class="glass-chip-badge dark">+42% Online Sales</span>
+            <a href="https://example.com/objects-for-living" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open Objects for Living website">
+              <div class="project-viewport-frame">
+                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80" alt="Brand & E-commerce" class="project-img" id="imgProject01">
+                <div class="viewport-hud-overlay">
+                  <span class="glass-chip-badge">E-Commerce</span>
+                  <span class="glass-chip-badge dark">+42% Online Sales</span>
+                </div>
               </div>
-            </div>
+            </a>
             <div class="project-content-pane">
               <div class="project-meta-row">
                 <span class="project-num">Project 01</span>
                 <span>Home & Lifestyle Goods</span>
               </div>
-              <h3 class="project-title" id="titleProject01">Objects for Living — Curated Store</h3>
+              <h3 class="project-title" id="titleProject01">
+                <a href="https://example.com/objects-for-living" target="_blank" rel="noopener noreferrer" class="project-title-link">Objects for Living — Curated Store ↗</a>
+              </h3>
               <p class="project-summary" id="descProject01">
                 An artisan lifestyle brand selling handcrafted ceramic and wooden objects. Features smooth 3D product previews and a seamless checkout experience.
               </p>
@@ -453,6 +457,9 @@
                 <span class="tag-pill">Mobile Checkout</span>
               </div>
               <div class="project-actions-row">
+                <a href="https://example.com/objects-for-living" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject01">
+                  <span>View Live Project ↗</span>
+                </a>
                 <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Objects for Living')">
                   <span>Build something like this ↗</span>
                 </a>
@@ -462,19 +469,23 @@
 
           <!-- Project 02: Creative Portfolio -->
           <article class="glass-project-card" id="project02">
-            <div class="project-viewport-frame">
-              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Creative Portfolio" class="project-img" id="imgProject02">
-              <div class="viewport-hud-overlay">
-                <span class="glass-chip-badge">Portfolio</span>
-                <span class="glass-chip-badge dark">Architecture Studio</span>
+            <a href="https://example.com/form-and-space" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open Form & Space website">
+              <div class="project-viewport-frame">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Creative Portfolio" class="project-img" id="imgProject02">
+                <div class="viewport-hud-overlay">
+                  <span class="glass-chip-badge">Portfolio</span>
+                  <span class="glass-chip-badge dark">Architecture Studio</span>
+                </div>
               </div>
-            </div>
+            </a>
             <div class="project-content-pane">
               <div class="project-meta-row">
                 <span class="project-num">Project 02</span>
                 <span>Design & Architecture</span>
               </div>
-              <h3 class="project-title" id="titleProject02">Form & Space — Architecture Studio</h3>
+              <h3 class="project-title" id="titleProject02">
+                <a href="https://example.com/form-and-space" target="_blank" rel="noopener noreferrer" class="project-title-link">Form & Space — Architecture Studio ↗</a>
+              </h3>
               <p class="project-summary" id="descProject02">
                 A clean, editorial portfolio for a boutique architecture practice. Full-bleed gallery imagery, fluid mobile transitions, and an interactive spatial project index.
               </p>
@@ -484,6 +495,9 @@
                 <span class="tag-pill">Interactive Gallery</span>
               </div>
               <div class="project-actions-row">
+                <a href="https://example.com/form-and-space" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject02">
+                  <span>View Live Project ↗</span>
+                </a>
                 <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Form & Space')">
                   <span>Build something like this ↗</span>
                 </a>
@@ -493,19 +507,23 @@
 
           <!-- Project 03: Business Dashboard -->
           <article class="glass-project-card" id="project03">
-            <div class="project-viewport-frame">
-              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Business Dashboard" class="project-img" id="imgProject03">
-              <div class="viewport-hud-overlay">
-                <span class="glass-chip-badge">Web Application</span>
-                <span class="glass-chip-badge dark">Real-Time Data</span>
+            <a href="https://example.com/pulse-analytics" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open Pulse Analytics website">
+              <div class="project-viewport-frame">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Business Dashboard" class="project-img" id="imgProject03">
+                <div class="viewport-hud-overlay">
+                  <span class="glass-chip-badge">Web Application</span>
+                  <span class="glass-chip-badge dark">Real-Time Data</span>
+                </div>
               </div>
-            </div>
+            </a>
             <div class="project-content-pane">
               <div class="project-meta-row">
                 <span class="project-num">Project 03</span>
                 <span>SaaS & Analytics</span>
               </div>
-              <h3 class="project-title" id="titleProject03">Pulse Analytics — Business Dashboard</h3>
+              <h3 class="project-title" id="titleProject03">
+                <a href="https://example.com/pulse-analytics" target="_blank" rel="noopener noreferrer" class="project-title-link">Pulse Analytics — Business Dashboard ↗</a>
+              </h3>
               <p class="project-summary" id="descProject03">
                 A clear, uncluttered dashboard for founders to monitor their core metrics. Fast data rendering, accessible contrast, and zero confusing clutter.
               </p>
@@ -515,6 +533,9 @@
                 <span class="tag-pill">Fast Performance</span>
               </div>
               <div class="project-actions-row">
+                <a href="https://example.com/pulse-analytics" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject03">
+                  <span>View Live Project ↗</span>
+                </a>
                 <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Pulse Analytics')">
                   <span>Build something like this ↗</span>
                 </a>
@@ -524,19 +545,23 @@
 
           <!-- Project 04: Local Business Site -->
           <article class="glass-project-card" id="project04">
-            <div class="project-viewport-frame">
-              <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" alt="Local Business Site" class="project-img" id="imgProject04">
-              <div class="viewport-hud-overlay">
-                <span class="glass-chip-badge">Local Business</span>
-                <span class="glass-chip-badge dark">3.4x Booking Lift</span>
+            <a href="https://example.com/flour-and-stone" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open Flour & Stone website">
+              <div class="project-viewport-frame">
+                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" alt="Local Business Site" class="project-img" id="imgProject04">
+                <div class="viewport-hud-overlay">
+                  <span class="glass-chip-badge">Local Business</span>
+                  <span class="glass-chip-badge dark">3.4x Booking Lift</span>
+                </div>
               </div>
-            </div>
+            </a>
             <div class="project-content-pane">
               <div class="project-meta-row">
                 <span class="project-num">Project 04</span>
                 <span>Bakery & Café</span>
               </div>
-              <h3 class="project-title" id="titleProject04">Flour & Stone — Artisanal Bakery</h3>
+              <h3 class="project-title" id="titleProject04">
+                <a href="https://example.com/flour-and-stone" target="_blank" rel="noopener noreferrer" class="project-title-link">Flour & Stone — Artisanal Bakery ↗</a>
+              </h3>
               <p class="project-summary" id="descProject04">
                 A warm, inviting website for an artisan sourdough bakery. Includes online pre-orders, daily seasonal menus, and a direct inquiry form for private catering events.
               </p>
@@ -546,6 +571,9 @@
                 <span class="tag-pill">Local SEO</span>
               </div>
               <div class="project-actions-row">
+                <a href="https://example.com/flour-and-stone" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject04">
+                  <span>View Live Project ↗</span>
+                </a>
                 <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Flour & Stone')">
                   <span>Build something like this ↗</span>
                 </a>

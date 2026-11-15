@@ -3,111 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lenora Developers — Internal Admin Portal</title>
+  <title>Lenora Developers — Studio Admin & Content Portal</title>
   <meta name="robots" content="noindex, nofollow">
-  
-  <!-- Typography Fonts -->
+
+  <!-- Typography: Space Grotesk & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  
-  <!-- Cloud SDKs (Supabase & Firebase Compat) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Cloud SDKs (Supabase & Firebase) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  
-  <!-- Admin Stylesheet -->
+
+  <!-- Admin Theme Stylesheet -->
   <link rel="stylesheet" href="css/admin.css">
 </head>
 <body class="admin-body">
-  <!-- =========================================================================
-       1. AUTHENTICATION GATEWAY (LOGIN VIEW)
-       ========================================================================= -->
-  <main id="loginView" class="admin-auth-wrapper">
-    <div class="glass-auth-card">
-      <div class="auth-card-header">
-        <div class="admin-brand-pill">
-          <span class="brand-dot"></span>
-          <span>INTERNAL PORTAL</span>
-        </div>
-        <h1 class="auth-title">LENORA DEVELOPERS</h1>
-        <p class="auth-subtitle">Restricted Access · Owner & Studio Operations</p>
-      </div>
 
-      <!-- Provider Selector Tabs -->
-      <div class="provider-toggle-group">
-        <button type="button" class="provider-btn active" data-provider="demo" id="btnProviderDemo">
-          <span class="icon">🗝️</span> Master Demo
+  <!-- =======================================================================
+       1. AUTHENTICATION GATEWAY (LOGIN VIEW)
+       ======================================================================= -->
+  <div id="loginView" class="admin-auth-wrapper">
+    <div class="glass-auth-card">
+      <div class="auth-brand">
+        <span class="auth-dot">●</span>
+        <h2>LENORA <span>DEVELOPERS</span></h2>
+      </div>
+      <p class="auth-subtitle">Internal Studio Administration & Content Portal</p>
+
+      <!-- Auth Provider Switcher -->
+      <div class="auth-provider-selector">
+        <button type="button" class="provider-btn active" data-provider="demo">
+          <span>Demo Master</span>
         </button>
-        <button type="button" class="provider-btn" data-provider="supabase" id="btnProviderSupabase">
-          <span class="icon">⚡</span> Supabase
+        <button type="button" class="provider-btn" data-provider="supabase">
+          <span>⚡ Supabase</span>
         </button>
-        <button type="button" class="provider-btn" data-provider="firebase" id="btnProviderFirebase">
-          <span class="icon">🔥</span> Firebase
+        <button type="button" class="provider-btn" data-provider="firebase">
+          <span>🔥 Firebase</span>
         </button>
       </div>
 
       <!-- Auth Form -->
-      <form id="adminLoginForm" class="admin-form">
+      <form id="adminLoginForm" class="admin-login-form">
+        <div id="authNotice" class="auth-notice" style="display: none;"></div>
+
         <div class="form-group">
-          <label for="loginEmail">Email Address</label>
+          <label for="loginEmail">Director / Admin Email</label>
           <input type="email" id="loginEmail" required autocomplete="username" value="admin@agency.com">
         </div>
 
         <div class="form-group">
-          <label for="loginPassword">Password</label>
+          <label for="loginPassword">Master Secret Key / Password</label>
           <input type="password" id="loginPassword" required autocomplete="current-password" value="admin123">
         </div>
 
-        <div id="authNotice" class="auth-status-box" role="status"></div>
-
-        <button type="submit" class="btn-admin-primary" id="btnSubmitLogin">
-          <span>SIGN IN TO PORTAL</span>
-          <span class="arrow">→</span>
+        <button type="submit" class="btn-admin-primary full-width" id="btnLoginSubmit">
+          <span>ACCESS ADMIN PORTAL ↗</span>
         </button>
+
+        <div class="auth-helper-note">
+          <span id="providerHintText">Master Demo login: <code>admin@agency.com</code> / <code>admin123</code></span>
+        </div>
       </form>
-
-      <div class="auth-footer-help">
-        <p class="hint-text">
-          <span id="providerHintText">Default Master Demo login: <code>admin@agency.com</code> / <code>admin123</code></span>
-        </p>
-        <button type="button" class="btn-text-link" id="btnOpenCloudModalFromLogin">
-          ⚙️ Setup Supabase or Firebase Keys
-        </button>
-      </div>
     </div>
-  </main>
+  </div>
 
-  <!-- =========================================================================
-       2. ADMIN COMMAND DASHBOARD (AUTHENTICATED VIEW)
-       ========================================================================= -->
+  <!-- =======================================================================
+       2. MAIN APPLICATION DASHBOARD (SECURE LOGGED-IN VIEW)
+       ======================================================================= -->
   <div id="appView" class="admin-dashboard-wrapper" style="display: none;">
-    <!-- Top Glass Navigation Bar -->
+    
+    <!-- Top Bar Navigation -->
     <header class="admin-topbar">
       <div class="topbar-brand">
-        <div class="brand-monogram">LD</div>
-        <div>
-          <span class="brand-name">LENORA DEVELOPERS</span>
-          <span class="brand-badge">ADMIN CONSOLE</span>
+        <div class="brand-badge">
+          <span class="brand-pulse">●</span>
+          <h1>LENORA <span>DEVELOPERS</span></h1>
+        </div>
+        <div class="status-pill-group">
+          <span class="status-indicator-pill live">● LIVE SYSTEM</span>
+          <span class="provider-tag" id="activeProviderLabel">DEMO MODE</span>
+          <span class="admin-user-tag" id="activeUserLabel">admin@agency.com</span>
         </div>
       </div>
 
-      <div class="topbar-status-indicator">
-        <span class="status-dot online"></span>
-        <span id="activeProviderLabel">Master Mode</span>
-        <span class="session-user" id="activeUserLabel">admin@agency.com</span>
-      </div>
-
       <div class="topbar-actions">
-        <a href="index.html" target="_blank" class="btn-admin-subtle">
-          <span>View Live Site</span>
+        <a href="index.html" target="_blank" rel="noopener noreferrer" class="btn-admin-subtle" title="Open live public website">
+          <span>👁 View Live Site</span>
           <span class="arrow">↗</span>
         </a>
-        <button type="button" class="btn-admin-subtle" id="btnOpenCloudModal">
-          <span>⚙️ Cloud Keys</span>
+        <button type="button" class="btn-admin-subtle" id="btnExportFullBackupTop" title="Download complete site JSON backup">
+          <span>📥 Backup Data</span>
         </button>
-        <button type="button" class="btn-admin-danger" id="btnLogout">
+        <button type="button" class="btn-admin-danger" id="btnLogout" title="Sign out of admin session">
           <span>Log Out</span>
         </button>
       </div>
@@ -115,7 +106,7 @@
 
     <!-- Metrics Ribbon -->
     <section class="admin-metrics-grid">
-      <div class="glass-metric-card">
+      <div class="glass-metric-card" onclick="switchAdminTab('tabInquiries')" style="cursor:pointer;" title="Click to view inquiries">
         <div class="metric-header">
           <span class="metric-title">TOTAL BRIEFS</span>
           <span class="metric-icon">📥</span>
@@ -124,7 +115,7 @@
         <span class="metric-subtext">Received via consultation form</span>
       </div>
 
-      <div class="glass-metric-card">
+      <div class="glass-metric-card" onclick="switchAdminTab('tabInquiries')" style="cursor:pointer;" title="Click to view new inquiries">
         <div class="metric-header">
           <span class="metric-title">NEW / UNREAD</span>
           <span class="metric-icon">✦</span>
@@ -133,22 +124,22 @@
         <span class="metric-subtext">Requires team follow-up</span>
       </div>
 
-      <div class="glass-metric-card">
+      <div class="glass-metric-card" onclick="switchAdminTab('tabPortfolio')" style="cursor:pointer;" title="Click to manage projects">
         <div class="metric-header">
-          <span class="metric-title">FLAGSHIP PROJECTS</span>
+          <span class="metric-title">PORTFOLIO PROJECTS</span>
           <span class="metric-icon">💼</span>
         </div>
         <div class="metric-value" id="metricProjectsCount">4</div>
         <span class="metric-subtext">Active showcase studies</span>
       </div>
 
-      <div class="glass-metric-card">
+      <div class="glass-metric-card" onclick="switchAdminTab('tabReviews')" style="cursor:pointer;" title="Click to manage reviews">
         <div class="metric-header">
-          <span class="metric-title">DATABASE SYNC</span>
-          <span class="metric-icon">⚡</span>
+          <span class="metric-title">CLIENT REVIEWS</span>
+          <span class="metric-icon">⭐</span>
         </div>
-        <div class="metric-value" id="metricDatabaseStatus" style="font-size:24px; line-height:36px;">LOCAL READY</div>
-        <span class="metric-subtext" id="metricDatabaseSubtext">Connected via browser & cloud bridge</span>
+        <div class="metric-value" id="metricReviewsCount">4</div>
+        <span class="metric-subtext">Moving banner testimonials</span>
       </div>
     </section>
 
@@ -158,14 +149,21 @@
         <span>📥 Inquiries & Leads</span>
         <span class="badge" id="leadsCountBadge">0</span>
       </button>
+      <button type="button" class="tab-btn" data-tab="tabPortfolio">
+        <span>🖼️ Projects & Case Studies</span>
+        <span class="badge badge-light" id="projectsCountBadge">4</span>
+      </button>
       <button type="button" class="tab-btn" data-tab="tabContent">
         <span>✍️ Live Site Content</span>
       </button>
-      <button type="button" class="tab-btn" data-tab="tabPortfolio">
-        <span>🖼️ Portfolio & Media</span>
+      <button type="button" class="tab-btn" data-tab="tabServices">
+        <span>⚡ Services Manager</span>
+      </button>
+      <button type="button" class="tab-btn" data-tab="tabReviews">
+        <span>💬 Moving Reviews Banner</span>
       </button>
       <button type="button" class="tab-btn" data-tab="tabCloud">
-        <span>☁️ Cloud Database & Auth</span>
+        <span>⚙️ Backup, Cloud & Security</span>
       </button>
     </nav>
 
@@ -202,7 +200,7 @@
           <input type="text" id="leadSearchInput" class="admin-search-input" placeholder="Search by name, email, or service...">
         </div>
 
-        <!-- Inquiries Table / Container -->
+        <!-- Inquiries Table -->
         <div class="table-responsive">
           <table class="glass-data-table">
             <thead>
@@ -229,7 +227,104 @@
     </section>
 
     <!-- =======================================================================
-         TAB 2: LIVE SITE CONTENT EDITOR
+         TAB 2: PORTFOLIO PROJECTS MANAGER (DYNAMIC ADD/REMOVE & LIVE LINKS)
+         ======================================================================= -->
+    <section id="tabPortfolio" class="tab-content">
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Portfolio Projects & Case Studies</h2>
+            <p class="panel-desc">Add, edit, or remove showcase projects. Every project can include a live website URL so visitors can click to visit client sites.</p>
+          </div>
+          <div class="panel-actions">
+            <button type="button" class="btn-admin-primary" id="btnOpenNewProjectModal">
+              <span>+ ADD NEW PROJECT</span>
+            </button>
+            <button type="button" class="btn-admin-primary" id="btnSaveAllProjects">
+              <span>💾 SAVE ALL PROJECTS</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Project Creator Drawer / Box -->
+        <div id="newProjectBox" class="new-project-builder-box" style="display: none;">
+          <div class="builder-header">
+            <h3>✦ Add New Client Showcase Project</h3>
+            <button type="button" class="btn-admin-subtle small" id="btnCloseNewProjectBox">✕ Cancel</button>
+          </div>
+          <form id="newProjectForm" class="admin-grid-form" style="margin-top: 16px;">
+            <div class="form-group">
+              <label for="newProjTitle">Project Title <span class="req">*</span></label>
+              <input type="text" id="newProjTitle" placeholder="e.g. Aura Studio — High Fashion Brand" required>
+            </div>
+            <div class="form-group">
+              <label for="newProjCategory">Category / Industry <span class="req">*</span></label>
+              <input type="text" id="newProjCategory" placeholder="e.g. Fashion & Editorial" required>
+            </div>
+            <div class="form-group full-width">
+              <label for="newProjLiveUrl">Project Live Website URL (Where clicks should navigate) <span class="req">*</span></label>
+              <div class="input-with-action">
+                <input type="url" id="newProjLiveUrl" placeholder="https://example.com/client-website" required>
+                <button type="button" class="btn-admin-subtle small" id="btnTestNewProjUrl" title="Test link in new tab">🔗 Test Link ↗</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="newProjBadgeText">HUD Stat Badge</label>
+              <input type="text" id="newProjBadgeText" placeholder="e.g. +140% Sales or Core Vitals 99">
+            </div>
+            <div class="form-group">
+              <label for="newProjBadgeType">HUD Category Badge</label>
+              <input type="text" id="newProjBadgeType" placeholder="e.g. E-Commerce or Web App">
+            </div>
+            <div class="form-group">
+              <label for="newProjImgUrl">Project Cover Image URL</label>
+              <input type="text" id="newProjImgUrl" placeholder="https://images.unsplash.com/... or upload photo below">
+            </div>
+            <div class="form-group">
+              <label for="newProjImgFile">Or Upload Local Photo File</label>
+              <input type="file" id="newProjImgFile" accept="image/*" class="admin-file-input">
+            </div>
+            <div class="form-group full-width">
+              <label for="newProjTags">Project Tags (Comma-separated)</label>
+              <input type="text" id="newProjTags" placeholder="e.g. Online Store, 3D Mockup, Mobile Checkout">
+            </div>
+            <div class="form-group full-width">
+              <label for="newProjDesc">Project Description / Summary <span class="req">*</span></label>
+              <textarea id="newProjDesc" rows="3" placeholder="Brief summary of what was built, key technologies, and client outcome..." required></textarea>
+            </div>
+            <div class="form-group full-width" style="display:flex; justify-content:flex-end; gap:12px;">
+              <button type="button" class="btn-admin-subtle" id="btnCancelNewProject">Cancel</button>
+              <button type="submit" class="btn-admin-primary"><span>✓ Add Project to Showcase</span></button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Featured Hero 3D Card Manager -->
+        <div class="glass-project-editor-card hero-special" style="margin-top:20px;">
+          <div class="card-tag">HERO SECTION FEATURED 3D MOCKUP</div>
+          <h3>Homepage 3D Tilt Perspective Card</h3>
+          <div class="image-preview-box">
+            <img id="previewHeroImage" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Hero Preview">
+          </div>
+          <div class="form-group">
+            <label>Image Source URL</label>
+            <input type="text" id="inputHeroImgUrl" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85">
+          </div>
+          <div class="form-group">
+            <label>Or Upload Local Photo</label>
+            <input type="file" id="fileHeroImg" accept="image/*" class="admin-file-input">
+          </div>
+        </div>
+
+        <!-- Dynamic Projects Grid (Rendered by js/admin.js) -->
+        <div id="dynamicProjectsList" class="projects-dynamic-grid">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         TAB 3: LIVE SITE CONTENT & BRANDING EDITOR
          ======================================================================= -->
     <section id="tabContent" class="tab-content">
       <div class="glass-panel">
@@ -253,17 +348,17 @@
 
           <div class="form-group">
             <label for="inputHeroEyebrow">Top Eyebrow Badge</label>
-            <input type="text" id="inputHeroEyebrow" value="Independent Web Agency">
+            <input type="text" id="inputHeroEyebrow" value="Accepting Select Client Projects · 2026">
           </div>
           
           <div class="form-group full-width">
             <label for="inputHeroHeadline">Hero Main Headline</label>
-            <input type="text" id="inputHeroHeadline" value="We design and build websites people actually remember.">
+            <input type="text" id="inputHeroHeadline" value="Websites crafted to leave a lasting impression.">
           </div>
 
           <div class="form-group full-width">
             <label for="inputHeroSubcopy">Hero Sublead Paragraph</label>
-            <textarea id="inputHeroSubcopy" rows="3">Custom web design, interactive 3D touches, and lightning-fast engineering for ambitious brands and creative founders.</textarea>
+            <textarea id="inputHeroSubcopy" rows="3">Independent web design and engineering studio. We partner with founders, brands, and creators to build high-speed digital experiences that look stunning on every phone screen.</textarea>
           </div>
 
           <div class="form-group">
@@ -281,24 +376,36 @@
             <input type="file" id="fileHeroBgUpload" accept="image/*" class="admin-file-input">
           </div>
 
-          <div class="form-section-title">High-Impact Metric Counters</div>
+          <div class="form-section-title">Hero Quality Standards (3 Micro Badges)</div>
 
           <div class="form-group">
-            <label for="inputStatSpeed">Performance Score</label>
-            <input type="text" id="inputStatSpeed" value="99.8%">
+            <label for="inputStandard01">Standard 1</label>
+            <input type="text" id="inputStandard01" value="Hand-Crafted Code">
           </div>
 
           <div class="form-group">
-            <label for="inputStatLatency">Global Latency Target</label>
-            <input type="text" id="inputStatLatency" value="<280ms">
+            <label for="inputStandard02">Standard 2</label>
+            <input type="text" id="inputStandard02" value="Under 1s Load Time">
           </div>
 
           <div class="form-group">
-            <label for="inputStatLift">Conversion Lift</label>
-            <input type="text" id="inputStatLift" value="+280%">
+            <label for="inputStandard03">Standard 3</label>
+            <input type="text" id="inputStandard03" value="Mobile-First Native">
           </div>
 
-          <div class="form-section-title">Direct Studio Channels & Instagram</div>
+          <div class="form-section-title">About Section & Studio Manifesto</div>
+
+          <div class="form-group full-width">
+            <label for="inputAboutHeading">About Section Heading</label>
+            <input type="text" id="inputAboutHeading" value="Building websites the honest way.">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="inputAboutLead">About Section Sublead</label>
+            <textarea id="inputAboutLead" rows="2">We founded Lenora Developers with a simple belief: businesses deserve fast, bespoke, beautifully engineered websites without the bloat of clumsy page builders.</textarea>
+          </div>
+
+          <div class="form-section-title">Direct Studio Channels & Socials</div>
 
           <div class="form-group">
             <label for="inputContactEmail">Primary Studio Email</label>
@@ -306,7 +413,7 @@
           </div>
 
           <div class="form-group">
-            <label for="inputStudioLocation">Location</label>
+            <label for="inputStudioLocation">Studio Location</label>
             <input type="text" id="inputStudioLocation" value="Global Remote Working">
           </div>
 
@@ -319,158 +426,171 @@
             <label for="inputIgUrl">Instagram Direct Profile URL</label>
             <input type="url" id="inputIgUrl" value="https://www.instagram.com/lenoradevelopers?exln=MW5uaGplNTByZzE3eA==">
           </div>
+
+          <div class="form-group full-width">
+            <label for="inputGuarantee">Studio Guarantee Statement</label>
+            <input type="text" id="inputGuarantee" value="Honest communication, clear timelines, and dedicated care.">
+          </div>
         </form>
       </div>
     </section>
 
     <!-- =======================================================================
-         TAB 3: PORTFOLIO & MEDIA SHOWCASE MANAGER
+         TAB 4: SERVICES SECTION MANAGER (FULL SERVICES ACCESS)
          ======================================================================= -->
-    <section id="tabPortfolio" class="tab-content">
+    <section id="tabServices" class="tab-content">
       <div class="glass-panel">
         <div class="panel-header">
           <div>
-            <h2 class="panel-title">Portfolio Projects & Media Showcase</h2>
-            <p class="panel-desc">Update case study photography, headlines, and descriptions directly. Upload local images or paste high-res URLs.</p>
+            <h2 class="panel-title">Services & Offerings Manager</h2>
+            <p class="panel-desc">Customize the 6 core services featured on the website. Edit titles, descriptions, categories, and key feature bullets.</p>
           </div>
-          <button type="button" class="btn-admin-primary" id="btnSaveProjects">
-            <span>💾 SAVE PORTFOLIO SHOWCASE</span>
+          <button type="button" class="btn-admin-primary" id="btnSaveServices">
+            <span>💾 SAVE ALL SERVICES</span>
           </button>
         </div>
 
-        <div class="portfolio-manager-grid">
-          <!-- Hero 3D Card Image -->
-          <div class="glass-project-editor-card hero-special">
-            <div class="card-tag">HERO 3D SHOWCASE CARD</div>
-            <h3>Featured Hero Perspective Image</h3>
-            <div class="image-preview-box">
-              <img id="previewHeroImage" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80" alt="Hero Preview">
-            </div>
-            <div class="form-group">
-              <label>Image Source URL</label>
-              <input type="text" id="inputHeroImgUrl" value="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80">
-            </div>
-            <div class="form-group">
-              <label>Or Upload Local Photo</label>
-              <input type="file" id="fileHeroImg" accept="image/*" class="admin-file-input">
-            </div>
-          </div>
-
-          <!-- Project 01 -->
-          <div class="glass-project-editor-card">
-            <div class="card-tag">FLAGSHIP PROJECT 01</div>
-            <div class="image-preview-box">
-              <img id="previewImg01" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80" alt="Project 1 Preview">
-            </div>
-            <div class="form-group">
-              <label>Project Title</label>
-              <input type="text" id="inputTitle01" value="Brand & E-commerce — Objects for Living">
-            </div>
-            <div class="form-group">
-              <label>Project Description</label>
-              <textarea id="inputDesc01" rows="2">Interactive 3D product showcase and smooth checkout experience that increased direct sales by 42%.</textarea>
-            </div>
-            <div class="form-group">
-              <label>Image URL</label>
-              <input type="text" id="inputImg01" value="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80">
-            </div>
-            <div class="form-group">
-              <label>Or Upload Photo</label>
-              <input type="file" id="fileImg01" accept="image/*" class="admin-file-input">
-            </div>
-          </div>
-
-          <!-- Project 02 -->
-          <div class="glass-project-editor-card">
-            <div class="card-tag">FLAGSHIP PROJECT 02</div>
-            <div class="image-preview-box">
-              <img id="previewImg02" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Project 2 Preview">
-            </div>
-            <div class="form-group">
-              <label>Project Title</label>
-              <input type="text" id="inputTitle02" value="Creative Portfolio — Spaces That Inspire">
-            </div>
-            <div class="form-group">
-              <label>Project Description</label>
-              <textarea id="inputDesc02" rows="2">Minimalist portfolio for an architectural design studio featuring fluid typography and bespoke spatial layouts.</textarea>
-            </div>
-            <div class="form-group">
-              <label>Image URL</label>
-              <input type="text" id="inputImg02" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80">
-            </div>
-            <div class="form-group">
-              <label>Or Upload Photo</label>
-              <input type="file" id="fileImg02" accept="image/*" class="admin-file-input">
-            </div>
-          </div>
-
-          <!-- Project 03 -->
-          <div class="glass-project-editor-card">
-            <div class="card-tag">FLAGSHIP PROJECT 03</div>
-            <div class="image-preview-box">
-              <img id="previewImg03" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Project 3 Preview">
-            </div>
-            <div class="form-group">
-              <label>Project Title</label>
-              <input type="text" id="inputTitle03" value="Business Dashboard — Your Numbers in Focus">
-            </div>
-            <div class="form-group">
-              <label>Project Description</label>
-              <textarea id="inputDesc03" rows="2">Data analytics platform with real-time charting, dark/light modes, and lightning-fast sub-second responses.</textarea>
-            </div>
-            <div class="form-group">
-              <label>Image URL</label>
-              <input type="text" id="inputImg03" value="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80">
-            </div>
-            <div class="form-group">
-              <label>Or Upload Photo</label>
-              <input type="file" id="fileImg03" accept="image/*" class="admin-file-input">
-            </div>
-          </div>
-
-          <!-- Project 04 -->
-          <div class="glass-project-editor-card">
-            <div class="card-tag">FLAGSHIP PROJECT 04</div>
-            <div class="image-preview-box">
-              <img id="previewImg04" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" alt="Project 4 Preview">
-            </div>
-            <div class="form-group">
-              <label>Project Title</label>
-              <input type="text" id="inputTitle04" value="Local Business Site — Good Food. Good Mood.">
-            </div>
-            <div class="form-group">
-              <label>Project Description</label>
-              <textarea id="inputDesc04" rows="2">Digital identity, reservation system, and dynamic seasonal menu for an artisanal bakery and café.</textarea>
-            </div>
-            <div class="form-group">
-              <label>Image URL</label>
-              <input type="text" id="inputImg04" value="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80">
-            </div>
-            <div class="form-group">
-              <label>Or Upload Photo</label>
-              <input type="file" id="fileImg04" accept="image/*" class="admin-file-input">
-            </div>
-          </div>
+        <div id="servicesEditorList" class="services-editor-grid">
+          <!-- Dynamically populated by js/admin.js -->
         </div>
       </div>
     </section>
 
     <!-- =======================================================================
-         TAB 4: CLOUD DATABASE & AUTH CONFIGURATION
+         TAB 5: REVIEWS & TESTIMONIALS MANAGER (MOVING BANNER)
+         ======================================================================= -->
+    <section id="tabReviews" class="tab-content">
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Client Reviews & Testimonials Manager</h2>
+            <p class="panel-desc">Manage reviews that appear in the moving banner. Add new client feedback, change quotes, star ratings, or remove testimonials.</p>
+          </div>
+          <div class="panel-actions">
+            <button type="button" class="btn-admin-primary" id="btnOpenNewReviewModal">
+              <span>+ ADD NEW REVIEW</span>
+            </button>
+            <button type="button" class="btn-admin-primary" id="btnSaveReviews">
+              <span>💾 SAVE ALL REVIEWS</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- New Review Box -->
+        <div id="newReviewBox" class="new-project-builder-box" style="display: none; margin-bottom: 24px;">
+          <div class="builder-header">
+            <h3>✦ Add Client Testimonial</h3>
+            <button type="button" class="btn-admin-subtle small" id="btnCloseNewReviewBox">✕ Cancel</button>
+          </div>
+          <form id="newReviewForm" class="admin-grid-form" style="margin-top: 16px;">
+            <div class="form-group">
+              <label for="newRevAuthor">Client Name <span class="req">*</span></label>
+              <input type="text" id="newRevAuthor" placeholder="e.g. Sarah Jenkins" required>
+            </div>
+            <div class="form-group">
+              <label for="newRevRole">Role / Company <span class="req">*</span></label>
+              <input type="text" id="newRevRole" placeholder="e.g. Co-founder, Studio Nuvola" required>
+            </div>
+            <div class="form-group">
+              <label for="newRevMetric">Metric Chip / Highlight</label>
+              <input type="text" id="newRevMetric" placeholder="e.g. Top PageSpeed or +140% Mobile Sales">
+            </div>
+            <div class="form-group">
+              <label for="newRevRating">Star Rating (1 - 5)</label>
+              <select id="newRevRating">
+                <option value="5" selected>★★★★★ (5 Stars)</option>
+                <option value="4">★★★★☆ (4 Stars)</option>
+                <option value="3">★★★☆☆ (3 Stars)</option>
+              </select>
+            </div>
+            <div class="form-group full-width">
+              <label for="newRevQuote">Client Testimonial Quote <span class="req">*</span></label>
+              <textarea id="newRevQuote" rows="3" placeholder="What did the client say about working with Lenora Developers?" required></textarea>
+            </div>
+            <div class="form-group full-width" style="display:flex; justify-content:flex-end; gap:12px;">
+              <button type="button" class="btn-admin-subtle" id="btnCancelNewReview">Cancel</button>
+              <button type="submit" class="btn-admin-primary"><span>✓ Add Review</span></button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Dynamic Reviews Cards Container -->
+        <div id="reviewsEditorList" class="reviews-editor-grid">
+          <!-- Dynamically populated by js/admin.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         TAB 6: BACKUP, CLOUD DATABASE & ADVANCED SECURITY
          ======================================================================= -->
     <section id="tabCloud" class="tab-content">
       <div class="glass-panel">
         <div class="panel-header">
           <div>
-            <h2 class="panel-title">Cloud Database & Authentication</h2>
-            <p class="panel-desc">Connect Supabase or Firebase to manage real-time client leads and secure admin authentication in the cloud.</p>
+            <h2 class="panel-title">Backup, Data Portability & Cloud Security</h2>
+            <p class="panel-desc">Export or restore full website backups in 1 click, customize master admin security, and configure Supabase or Firebase.</p>
           </div>
-          <button type="button" class="btn-admin-primary" id="btnTestCloudConnection">
-            <span>⚡ TEST CONNECTION</span>
-          </button>
         </div>
 
-        <div class="cloud-provider-config-box">
+        <!-- 1-Click Backup & Restore Zone -->
+        <div class="settings-card-group">
+          <div class="settings-action-card">
+            <div class="set-icon">📦</div>
+            <div class="set-info">
+              <h3>Full Website Backup & Export</h3>
+              <p>Download a JSON snapshot containing all project case studies, client reviews, services, site copy, and incoming leads.</p>
+            </div>
+            <button type="button" class="btn-admin-primary" id="btnExportFullBackup">
+              <span>📥 Export Complete Backup (.json)</span>
+            </button>
+          </div>
+
+          <div class="settings-action-card">
+            <div class="set-icon">📤</div>
+            <div class="set-info">
+              <h3>Restore Website from Backup</h3>
+              <p>Restore full website content and projects from a previously downloaded backup file.</p>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center;">
+              <input type="file" id="fileImportBackup" accept=".json" style="display:none;">
+              <button type="button" class="btn-admin-subtle" onclick="document.getElementById('fileImportBackup').click()">
+                <span>Select .json file</span>
+              </button>
+              <button type="button" class="btn-admin-primary" id="btnImportBackup">
+                <span>Restore Backup ↑</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Change Master Admin Password -->
+          <div class="settings-action-card">
+            <div class="set-icon">🔑</div>
+            <div class="set-info">
+              <h3>Master Admin Password</h3>
+              <p>Update the local password required to log into this Admin Portal.</p>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <input type="password" id="inputNewAdminPassword" placeholder="Enter new password" style="padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-light); background: #ffffff;">
+              <button type="button" class="btn-admin-primary" id="btnUpdateAdminPassword">
+                <span>Save New Password</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Cloud Database Integration -->
+        <div class="cloud-provider-config-box" style="margin-top: 32px;">
+          <div class="panel-header" style="padding: 0 0 16px 0;">
+            <div>
+              <h3 style="font-size: 18px; font-weight: 700;">Cloud Database & Realtime Auth</h3>
+              <p class="panel-desc">Optional: Connect Supabase or Firebase to mirror leads into PostgreSQL with Row-Level Security.</p>
+            </div>
+            <button type="button" class="btn-admin-subtle" id="btnTestCloudConnection">
+              <span>⚡ Test Connection</span>
+            </button>
+          </div>
+
           <div class="provider-radio-group">
             <label class="provider-radio-label">
               <input type="radio" name="cloudProvider" value="supabase" checked id="radioSupabase">
@@ -516,57 +636,6 @@
             <button type="button" class="btn-admin-subtle" id="btnSyncLocalToCloud">
               <span>SYNC LOCAL LEADS TO CLOUD ↑</span>
             </button>
-          </div>
-
-          <!-- 1-Click SQL & Rule Generators -->
-          <div class="cloud-helper-cards">
-            <div class="helper-card">
-              <div class="helper-header">
-                <strong>Supabase SQL Table Schema & Zero-Leak RLS</strong>
-                <button type="button" class="btn-copy-code" id="btnCopySupabaseSql">Copy SQL</button>
-              </div>
-              <pre class="code-box"><code>-- Create inquiries table in Supabase SQL editor:
-create table if not exists inquiries (
-  id uuid default gen_random_uuid() primary key,
-  name text not null,
-  email text not null,
-  service text,
-  message text,
-  status text default 'New',
-  created_at timestamp with time zone default timezone('utc'::text, now())
-);
-
--- Enable Row Level Security (BLOCKS ALL READS BY DEFAULT):
-alter table inquiries enable row level security;
-
--- 1. Public leads submission (INSERT ONLY - zero read permissions for anon):
-create policy "Allow insert for visitors" on inquiries 
-  for insert to anon, authenticated 
-  with check (true);
-
--- 2. Authenticated studio owner access (FULL READ/WRITE/DELETE):
-create policy "Allow authenticated admin full access" on inquiries 
-  for all to authenticated 
-  using (auth.role() = 'authenticated') 
-  with check (auth.role() = 'authenticated');</code></pre>
-            </div>
-
-            <div class="helper-card">
-              <div class="helper-header">
-                <strong>Firebase Firestore Security Rules</strong>
-                <button type="button" class="btn-copy-code" id="btnCopyFirebaseRules">Copy Rules</button>
-              </div>
-              <pre class="code-box"><code>// Paste into Firebase Firestore Rules console:
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /inquiries/{inquiryId} {
-      allow create: if true;
-      allow read, update, delete: if request.auth != null;
-    }
-  }
-}</code></pre>
-            </div>
           </div>
         </div>
       </div>

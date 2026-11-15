@@ -621,9 +621,20 @@ function initSecretAdminShortcut() {
 /* ==========================================================================
    7. LIVE CONTENT HYDRATION FROM ADMIN PORTAL
    ========================================================================== */
+function escapeHtmlMain(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 function hydrateAdminContent() {
   try {
     const savedContent = JSON.parse(localStorage.getItem('lumen_site_content') || '{}');
+    
     if (savedContent.brandName) {
       if (/lumen/i.test(savedContent.brandName)) {
         savedContent.brandName = 'LENORA <span>DEVELOPERS</span>';
@@ -655,18 +666,22 @@ function hydrateAdminContent() {
       const heroImg = document.getElementById('heroFeaturedImage');
       if (heroImg) heroImg.src = heroBg;
     }
-    if (savedContent.statSpeed) {
-      const spEl = document.getElementById('statSpeed');
-      if (spEl) spEl.textContent = savedContent.statSpeed;
+
+    // Micro-proof quality standards
+    if (savedContent.standard01) {
+      const st1 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(1) span:last-child');
+      if (st1) st1.textContent = savedContent.standard01;
     }
-    if (savedContent.statLatency) {
-      const latEl = document.getElementById('statLatency');
-      if (latEl) latEl.textContent = savedContent.statLatency;
+    if (savedContent.standard02) {
+      const st2 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(3) span:last-child');
+      if (st2) st2.textContent = savedContent.standard02;
     }
-    if (savedContent.statLift) {
-      const liftEl = document.getElementById('statLift');
-      if (liftEl) liftEl.textContent = savedContent.statLift;
+    if (savedContent.standard03) {
+      const st3 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(5) span:last-child');
+      if (st3) st3.textContent = savedContent.standard03;
     }
+
+    // Contact and Direct Channels
     if (savedContent.email) {
       const emEl = document.getElementById('contactEmailLink');
       if (emEl) {
@@ -693,31 +708,175 @@ function hydrateAdminContent() {
       }
     }
     if (savedContent.igUrl) {
-      const igBtn = document.getElementById('igDirectBtn');
-      if (igBtn) igBtn.href = savedContent.igUrl;
+      const directIg = document.getElementById('contactIgLink');
+      if (directIg) directIg.href = savedContent.igUrl;
+      const footerIg = document.querySelector('.footer-social-link.instagram-app-trigger');
+      if (footerIg) footerIg.href = savedContent.igUrl;
     }
 
-    // Hydrate project showcases if customized via admin
-    const savedProjects = JSON.parse(localStorage.getItem('lumen_projects') || '{}');
-    ['01', '02', '03', '04'].forEach((num) => {
-      const pKey = `project${num}`;
-      if (savedProjects[pKey]) {
-        const p = savedProjects[pKey];
-        if (p.img) {
-          const imgEl = document.getElementById(`imgProject${num}`);
-          if (imgEl) imgEl.src = p.img;
-        }
-        if (p.title) {
-          const titleEl = document.getElementById(`titleProject${num}`);
-          if (titleEl) titleEl.textContent = p.title;
-        }
-        if (p.desc) {
-          const descEl = document.getElementById(`descProject${num}`);
-          if (descEl) descEl.textContent = p.desc;
-        }
-      }
-    });
+    // 1. DYNAMIC PROJECTS RENDERING (ADD / REMOVE & LIVE WEB LINKS)
+    hydrateDynamicProjects();
+
+    // 2. DYNAMIC SERVICES RENDERING
+    hydrateDynamicServices();
+
+    // 3. DYNAMIC REVIEWS RENDERING
+    hydrateDynamicReviews();
+
   } catch (err) {
     console.warn('Hydration notice:', err);
+  }
+}
+
+function hydrateDynamicProjects() {
+  const container = document.getElementById('projectsShowcaseGrid');
+  if (!container) return;
+
+  const rawProjects = localStorage.getItem('lenora_projects_list');
+  if (!rawProjects) return; // Keep server defaults if nothing saved in admin yet
+
+  try {
+    const projects = JSON.parse(rawProjects);
+    if (!Array.isArray(projects) || !projects.length) return;
+
+    container.innerHTML = projects.map((p, idx) => {
+      const safeTitle = escapeHtmlMain(p.title);
+      const safeCat = escapeHtmlMain(p.category || 'Digital Experience');
+      const safeUrl = p.liveUrl ? escapeHtmlMain(p.liveUrl) : '#';
+      const safeImg = escapeHtmlMain(p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80');
+      const safeDesc = escapeHtmlMain(p.desc || '');
+      const badgeText = escapeHtmlMain(p.badgeText || '+100% Growth');
+      const badgeType = escapeHtmlMain(p.badgeType || safeCat);
+      const tags = (p.tags && Array.isArray(p.tags)) ? p.tags : ['Custom Build', 'Fast Load'];
+      const num = p.num || String(idx + 1).padStart(2, '0');
+
+      return `
+        <article class="glass-project-card" id="projCard_${p.id || idx}">
+          <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open ${safeTitle} live website">
+            <div class="project-viewport-frame">
+              <img src="${safeImg}" alt="${safeTitle} Cover Mockup" class="project-img" loading="lazy">
+              <div class="viewport-hud-overlay">
+                <span class="glass-chip-badge">${badgeType}</span>
+                <span class="glass-chip-badge dark">${badgeText}</span>
+              </div>
+            </div>
+          </a>
+          <div class="project-content-pane">
+            <div class="project-meta-row">
+              <span class="project-num">Project ${num}</span>
+              <span>${safeCat}</span>
+            </div>
+            <h3 class="project-title">
+              <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="project-title-link">${safeTitle} ↗</a>
+            </h3>
+            <p class="project-summary">${safeDesc}</p>
+            <div class="project-tags-row">
+              ${tags.map(t => `<span class="tag-pill">${escapeHtmlMain(t)}</span>`).join('')}
+            </div>
+            <div class="project-actions-row">
+              <a href="${safeUrl}" target="_blank" rel="noopener noreferrer" class="btn-project-visit" title="Navigate to live project website">
+                <span>View Live Project ↗</span>
+              </a>
+              <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('${safeTitle}')">
+                <span>Build something like this ↗</span>
+              </a>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+  } catch (e) {
+    console.warn('Projects hydration notice:', e);
+  }
+}
+
+function hydrateDynamicServices() {
+  const container = document.getElementById('servicesGrid');
+  if (!container) return;
+
+  const rawServices = localStorage.getItem('lenora_services_list');
+  if (!rawServices) return;
+
+  try {
+    const services = JSON.parse(rawServices);
+    if (!Array.isArray(services) || !services.length) return;
+
+    container.innerHTML = services.map((s, idx) => {
+      const safeTitle = escapeHtmlMain(s.title);
+      const safeCat = escapeHtmlMain(s.category || 'Service');
+      const safeDesc = escapeHtmlMain(s.desc || '');
+      const num = s.num || String(idx + 1).padStart(2, '0');
+      const features = (s.features && Array.isArray(s.features)) ? s.features : [];
+
+      return `
+        <article class="glass-capability-card" data-service="${safeTitle}">
+          <div class="card-glass-top">
+            <span class="cap-num">${num}</span>
+            <span class="cap-category">${safeCat}</span>
+          </div>
+          <h3 class="cap-title">${safeTitle}</h3>
+          <p class="cap-description">${safeDesc}</p>
+          <ul class="cap-features-list">
+            ${features.map(f => `<li>${escapeHtmlMain(f)}</li>`).join('')}
+          </ul>
+          <div class="card-glass-bottom">
+            <span class="cap-meta-tag">Tailor-Made</span>
+            <a href="#contact" class="cap-action-link" onclick="prefillServiceInput('${safeTitle}')">Talk to us ↗</a>
+          </div>
+        </article>
+      `;
+    }).join('');
+  } catch (e) {
+    console.warn('Services hydration notice:', e);
+  }
+}
+
+function hydrateDynamicReviews() {
+  const track = document.getElementById('reviewsBannerTrack');
+  if (!track) return;
+
+  const rawReviews = localStorage.getItem('lenora_reviews_list');
+  if (!rawReviews) return;
+
+  try {
+    const reviews = JSON.parse(rawReviews);
+    if (!Array.isArray(reviews) || !reviews.length) return;
+
+    function renderGroupHTML() {
+      return `
+        <div class="reviews-banner-group">
+          ${reviews.map(r => {
+            const safeAuthor = escapeHtmlMain(r.author);
+            const safeRole = escapeHtmlMain(r.role);
+            const safeQuote = escapeHtmlMain(r.quote);
+            const safeMetric = escapeHtmlMain(r.metric || 'Top Quality');
+            const stars = '★'.repeat(r.rating || 5);
+            const initials = safeAuthor.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase() || 'LD';
+
+            return `
+              <article class="review-banner-card">
+                <div class="r-card-top">
+                  <div class="r-stars">${stars}</div>
+                  <span class="r-metric-chip">${safeMetric}</span>
+                </div>
+                <p class="r-quote">“${safeQuote}”</p>
+                <div class="r-author">
+                  <div class="r-avatar">${initials}</div>
+                  <div class="r-info">
+                    <strong class="r-name">${safeAuthor}</strong>
+                    <span class="r-role">${safeRole}</span>
+                  </div>
+                </div>
+              </article>
+            `;
+          }).join('')}
+        </div>
+      `;
+    }
+
+    // Render duplicated groups for infinite marquee animation
+    track.innerHTML = renderGroupHTML() + renderGroupHTML();
+  } catch (e) {
+    console.warn('Reviews hydration notice:', e);
   }
 }
