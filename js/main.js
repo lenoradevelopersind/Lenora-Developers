@@ -410,7 +410,7 @@ function initReviewsBannerMarquee() {
 /* ==========================================================================
    5. PREFILL ACTIONS & CONTACT FORM
    ========================================================================== */
-window.prefillServiceInput = function(serviceName) {
+window.prefillServiceInput = function (serviceName) {
   const select = document.getElementById('contactService');
   const messageBox = document.getElementById('contactMessage');
 
@@ -436,7 +436,7 @@ window.prefillServiceInput = function(serviceName) {
   }
 };
 
-window.prefillProjectInquiry = function(projectName) {
+window.prefillProjectInquiry = function (projectName) {
   const messageBox = document.getElementById('contactMessage');
   if (messageBox) {
     messageBox.value = `Hi, we love what you did on the "${projectName}" project. We are looking for something similar for our business: `;
@@ -533,7 +533,7 @@ function initContactInquiryForm() {
     let cloudSynced = false;
     try {
       const cloudConfig = JSON.parse(localStorage.getItem('lumen_cloud_config') || '{}');
-      
+
       // If Supabase is connected: INSERT ONLY (Protected by Postgres Row Level Security)
       if (cloudConfig.supabaseUrl && cloudConfig.supabaseAnonKey && typeof supabase !== 'undefined' && supabase.createClient) {
         const client = supabase.createClient(cloudConfig.supabaseUrl, cloudConfig.supabaseAnonKey);
@@ -558,7 +558,7 @@ function initContactInquiryForm() {
         const existing = JSON.parse(localStorage.getItem('lumen_inquiries') || '[]');
         existing.unshift(newInquiry);
         localStorage.setItem('lumen_inquiries', JSON.stringify(existing));
-      } catch (e) {}
+      } catch (e) { }
     }
 
     sessionStorage.setItem('lumen_last_submission', now.toString());
@@ -627,7 +627,7 @@ function hydrateAdminContent() {
     if (savedContent.brandName) {
       if (/lumen/i.test(savedContent.brandName)) {
         savedContent.brandName = 'LENORA <span>DEVELOPERS</span>';
-        try { localStorage.setItem('lumen_site_content', JSON.stringify(savedContent)); } catch (e) {}
+        try { localStorage.setItem('lumen_site_content', JSON.stringify(savedContent)); } catch (e) { }
       }
       const bEl = document.getElementById('heroBrandName');
       if (bEl) bEl.innerHTML = savedContent.brandName;
