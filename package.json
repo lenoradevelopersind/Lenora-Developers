@@ -1,0 +1,37 @@
+{
+  "name": "web-agency",
+  "version": "1.0.0",
+  "description": "A bespoke, human-crafted website engineered for **Lenora Developers**, an independent design and development studio. Designed with an **organic warm beige/linen canvas (`#f7f4ee`)**, **solid high-contrast typography (zero gradients)**, **subtle frosted glassmorphism**, **native scroll triggers**, **100% laptop and mobile responsiveness**, a **contact section with direct email and Instagram app navigation and Global Remote Working location**, and a **completely hidden Admin Portal** powered by **Supabase & Firebase**.",
+  "main": "find_pin.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "framer-motion": "^14.11.1",
+    "lenis": "^1.3.27",
+    "lucide-react": "^1.71.0",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-icons": "^5.7.0",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "autoprefixer": "^10.6.2",
+    "postcss": "^8.5.32",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^7.0.2"
+  }
+}

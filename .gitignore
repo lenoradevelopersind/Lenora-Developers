@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Production & Build outputs
+.next/
+out/
+build/
+dist/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+*.log
+
+# Environment variables
+.env
+.env*.local
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Scratch and exploration artifacts
+gazu.html
+find_pin.js
+find_pin2.js
+inspect_gazu.js
+crop_assets.ps1
+make_transparent.ps1

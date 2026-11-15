@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lenora Developers — Custom Web Design & Development</title>
+  <meta name="description" content="We design and build fast, custom websites for growing brands, creators, and businesses. Clean code, thoughtful design, and zero fluff.">
+
+  <!-- Typography: Plus Jakarta Sans & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Cloud & Security SDKs -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Minimalist Scroll Progress Line (Solid Accent, No Gradient) -->
+  <div class="glass-scroll-progress" id="scrollProgress"></div>
+
+  <!-- ==========================================================================
+       FROSTED GLASS FLOATING NAVIGATION ISLAND
+       ========================================================================== -->
+  <header class="glass-island-nav" id="siteNav">
+    <div class="glass-nav-pill">
+      
+      <!-- Brand Logo -->
+      <a href="#hero" class="nav-brand" aria-label="Lenora Developers Home">
+        <span class="brand-crystal-prism">●</span>
+        <span class="brand-text">LENORA <span>DEVELOPERS</span></span>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="nav-links-cluster" aria-label="Main Navigation">
+        <a href="#services" class="glass-nav-link">Services</a>
+        <a href="#work" class="glass-nav-link">Work</a>
+        <a href="#about" class="glass-nav-link">About</a>
+        <a href="#contact" class="glass-nav-link">Contact</a>
+      </nav>
+
+      <!-- Action Cluster -->
+      <div class="nav-action-cluster">
+        <div class="glass-availability-pill">
+          <span class="pulse-status"></span>
+          <span class="avail-text">Taking on new projects</span>
+        </div>
+        <a href="#contact" class="btn-solid-primary">
+          <span>Start a project</span>
+          <span class="btn-arrow">↗</span>
+        </a>
+        <button class="mobile-hamburger" id="mobileMenuBtn" aria-label="Toggle Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       RESPONSIVE FROSTED GLASS MOBILE MENU DRAWER
+       ========================================================================== -->
+  <div class="glass-mobile-drawer" id="mobileDrawer" aria-hidden="true">
+    <div class="drawer-top-row">
+      <div class="nav-brand">
+        <span class="brand-crystal-prism">●</span>
+        <span class="brand-text">LENORA <span>DEVELOPERS</span></span>
+      </div>
+      <button class="drawer-close-btn" id="drawerClose">&times;</button>
+    </div>
+
+    <nav class="drawer-nav-menu">
+      <a href="#services" class="drawer-link">Services</a>
+      <a href="#work" class="drawer-link">Work</a>
+      <a href="#about" class="drawer-link">About</a>
+      <a href="#contact" class="drawer-link">Contact</a>
+    </nav>
+
+    <div class="drawer-footer-card">
+      <div class="drawer-info-line">
+        <span class="d-label">Email:</span>
+        <a href="mailto:lenoradevelopersind@gmail.com" class="d-val">lenoradevelopersind@gmail.com</a>
+      </div>
+      <div class="drawer-info-line">
+        <span class="d-label">Instagram ID:</span>
+        <a href="https://www.instagram.com/lenoradevelopers?exln=MW5uaGplNTByZzE3eA==" target="_blank" rel="noopener" class="d-val instagram-app-trigger" data-ig-handle="lenoradevelopers">@lenoradevelopers ↗</a>
+      </div>
+      <div class="drawer-info-line">
+        <span class="d-label">Location:</span>
+        <span class="d-val">Global Remote Working</span>
+      </div>
+      <a href="#contact" class="btn-solid-primary full-width" style="margin-top:14px;">
+        <span>Start a conversation ↗</span>
+      </a>
+    </div>
+  </div>
+
+  <main>
+    <!-- ==========================================================================
+         HERO SECTION: ARCHITECTURAL ASYMMETRIC SPLIT HERO WITH 3D TILT SHOWCASE
+         ========================================================================== -->
+    <section class="hero-photo-stage" id="hero" aria-label="Introduction">
+      <div class="hero-photo-backdrop" id="heroPhotoBackdrop" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2560&q=85');"></div>
+      <div class="hero-photo-scrim" aria-hidden="true"></div>
+
+      <div class="container hero-photo-container">
+        <div class="hero-split-grid">
+          
+          <!-- Left Column: Studio Manifesto Card -->
+          <div class="hero-split-left">
+            
+            <div class="hero-eyebrow-chip">
+              <span class="hero-pulse-dot"></span>
+              <span id="heroEyebrow">Accepting Select Client Projects · 2026</span>
+            </div>
+
+            <div class="hero-brand-callout">
+              <span class="hero-brand-symbol">●</span>
+              <span class="hero-brand-text" id="heroBrandName">LENORA <span>DEVELOPERS</span></span>
+            </div>
+
+            <h1 class="hero-monumental-headline" id="heroMainHeadline">
+              Websites crafted to leave a lasting impression.
+            </h1>
+
+            <p class="hero-sublead-text" id="heroSubcopy">
+              Independent web design and engineering studio. We partner with founders, brands, and creators to build high-speed digital experiences that look stunning on every phone screen.
+            </p>
+
+            <div class="hero-actions-row">
+              <a href="#contact" class="btn-solid-primary large hero-cta-btn">
+                <span id="heroCtaText">Start a project</span>
+                <span class="btn-arrow">↗</span>
+              </a>
+              <a href="#work" class="btn-hero-translucent large">
+                <span>View selected work ↓</span>
+              </a>
+            </div>
+
+            <!-- Micro-Proof Quality Standards -->
+            <div class="hero-standards-strip">
+              <div class="h-standard-item">
+                <span class="h-standard-check">✓</span>
+                <span>Hand-Crafted Code</span>
+              </div>
+              <span class="h-standard-sep">·</span>
+              <div class="h-standard-item">
+                <span class="h-standard-check">✓</span>
+                <span>Under 1s Load Time</span>
+              </div>
+              <span class="h-standard-sep">·</span>
+              <div class="h-standard-item">
+                <span class="h-standard-check">✓</span>
+                <span>Mobile-First Native</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Interactive 3D Perspective Showcase Card -->
+          <div class="hero-split-right">
+            <div class="hero-showcase-3d-card" id="hero3dCard" aria-label="Interactive studio project preview">
+              
+              <!-- Device Browser Bar -->
+              <div class="hero-card-window-bar">
+                <div class="window-dot-group">
+                  <span class="w-dot dot-close"></span>
+                  <span class="w-dot dot-min"></span>
+                  <span class="w-dot dot-expand"></span>
+                </div>
+                <div class="window-address-pill">
+                  <span class="window-lock-icon">🔒</span>
+                  <span>lenoradevelopers.com/studio</span>
+                </div>
+                <div class="window-status-chip">
+                  <span class="window-pulse-dot"></span>
+                  <span>LIVE</span>
+                </div>
+              </div>
+
+              <!-- Main Project Mockup Viewport -->
+              <div class="hero-card-viewport">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Lenora Developers Featured Project Preview" class="hero-card-img" id="heroFeaturedImage">
+                <div class="hero-card-overlay-gradient"></div>
+
+                <!-- Floating Parallax Chip 1 (Top Right) -->
+                <div class="hero-floating-chip chip-top-right">
+                  <span class="chip-badge-icon">⚡</span>
+                  <div class="chip-content">
+                    <strong class="chip-title">99.8% Speed</strong>
+                    <span class="chip-subtitle">Google Core Vitals</span>
+                  </div>
+                </div>
+
+                <!-- Floating Parallax Chip 2 (Bottom Left) -->
+                <div class="hero-floating-chip chip-bottom-left">
+                  <span class="chip-avatar-circle">LD</span>
+                  <div class="chip-content">
+                    <strong class="chip-title">Form & Space Architecture</strong>
+                    <span class="chip-subtitle">Editorial Portfolio Build</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Studio Live Status Footer -->
+              <div class="hero-card-footer">
+                <div class="studio-status-col">
+                  <span class="st-caption">STUDIO CLOCK</span>
+                  <span class="st-clock-val" id="studioLiveClock">19:35:00 LOCAL</span>
+                </div>
+                <div class="studio-status-divider"></div>
+                <div class="studio-status-col">
+                  <span class="st-caption">WORKFLOW</span>
+                  <span class="st-tag-val">Zero Boilerplates</span>
+                </div>
+                <div class="studio-status-divider"></div>
+                <div class="studio-status-col">
+                  <span class="st-caption">AVAILABILITY</span>
+                  <span class="st-avail-val"><span class="st-dot"></span>Open for Q1/Q2</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SUBTLE CLIENT / CAPABILITY TICKER (MONOCHROME & CLEAN)
+         ========================================================================== -->
+    <div class="kinetic-glass-marquee" aria-hidden="true">
+      <div class="marquee-sliding-track">
+        <div class="marquee-chunk">
+          <span>Custom Web Development</span><span class="m-dot">·</span>
+          <span>Interactive 3D Experiences</span><span class="m-dot">·</span>
+          <span>E-Commerce Stores</span><span class="m-dot">·</span>
+          <span>Portfolio Websites</span><span class="m-dot">·</span>
+          <span>Speed & Search Optimization</span><span class="m-dot">·</span>
+          <span>Clean Code & No Templates</span><span class="m-dot">·</span>
+        </div>
+        <div class="marquee-chunk">
+          <span>Custom Web Development</span><span class="m-dot">·</span>
+          <span>Interactive 3D Experiences</span><span class="m-dot">·</span>
+          <span>E-Commerce Stores</span><span class="m-dot">·</span>
+          <span>Portfolio Websites</span><span class="m-dot">·</span>
+          <span>Speed & Search Optimization</span><span class="m-dot">·</span>
+          <span>Clean Code & No Templates</span><span class="m-dot">·</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         SERVICES SECTION: WHAT WE DO (REAL HUMAN COPY, NO AI BUZZWORDS)
+         ========================================================================== -->
+    <section class="section-glass-capabilities" id="services">
+      <div class="container">
+        
+        <div class="section-title-lockup">
+          <div class="title-meta-badge">
+            <span>What we do</span>
+          </div>
+          <h2 class="section-monumental-heading">
+            Everything your website needs to succeed.
+          </h2>
+          <p class="section-lead-copy">
+            A great website is more than just pretty visuals. We combine clean design, fast engineering, and clear writing so every visitor understands what you offer.
+          </p>
+        </div>
+
+        <div class="glass-capabilities-grid">
+          
+          <!-- Service 01 -->
+          <article class="glass-capability-card" data-service="Web Design & UI/UX">
+            <div class="card-glass-top">
+              <span class="cap-num">01</span>
+              <span class="cap-category">Design</span>
+            </div>
+            <h3 class="cap-title">Web Design & Art Direction</h3>
+            <p class="cap-description">
+              Custom designs tailored specifically to your brand. Clean typography, generous whitespace, and intuitive navigation that your customers will love using.
+            </p>
+            <ul class="cap-features-list">
+              <li>Custom Figma design mockups</li>
+              <li>Mobile-first layout design</li>
+              <li>Brand colors & typography systems</li>
+            </ul>
+            <div class="card-glass-bottom">
+              <span class="cap-meta-tag">Tailor-Made</span>
+              <a href="#contact" class="cap-action-link" onclick="prefillServiceInput('Web Design & Art Direction')">Talk to us ↗</a>
+            </div>
+          </article>
+
+          <!-- Service 02 -->
+          <article class="glass-capability-card" data-service="Website Development">
+            <div class="card-glass-top">
+              <span class="cap-num">02</span>
+              <span class="cap-category">Development</span>
+            </div>
+            <h3 class="cap-title">Custom Web Development</h3>
+            <p class="cap-description">
+              Hand-coded websites built from scratch. Lightning-fast load times, zero unnecessary plugins, and clean code that is easy to maintain and grow over time.
+            </p>
+            <ul class="cap-features-list">
+              <li>Fast loading under 1 second</li>
+              <li>100% responsive across phones & laptops</li>
+              <li>Interactive 3D WebGL features</li>
+            </ul>
+            <div class="card-glass-bottom">
+              <span class="cap-meta-tag">Clean Code</span>
+              <a href="#contact" class="cap-action-link" onclick="prefillServiceInput('Custom Web Development')">Talk to us ↗</a>
+            </div>
+          </article>
+
+          <!-- Service 03 -->
+          <article class="glass-capability-card" data-service="E-commerce Stores">
+            <div class="card-glass-top">
+              <span class="cap-num">03</span>
+              <span class="cap-category">Online Stores</span>
+            </div>
+            <h3 class="cap-title">E-Commerce & Online Stores</h3>
+            <p class="cap-description">
+              Online shopping experiences designed to make buying simple. Clear product showcases, mobile-friendly cart drawers, and secure, frictionless checkouts.
+            </p>
+            <ul class="cap-features-list">
+              <li>Shopify & bespoke store setups</li>
+              <li>Fast product browsing & filters</li>
+              <li>Secure payment & shipping integrations</li>
+            </ul>
+            <div class="card-glass-bottom">
+              <span class="cap-meta-tag">High Conversion</span>
+              <a href="#contact" class="cap-action-link" onclick="prefillServiceInput('E-Commerce & Online Stores')">Talk to us ↗</a>
+            </div>
+          </article>
+
+          <!-- Service 04 -->
+          <article class="glass-capability-card" data-service="SEO & Optimization">
+            <div class="card-glass-top">
+              <span class="cap-num">04</span>
+              <span class="cap-category">Speed & SEO</span>
+            </div>
+            <h3 class="cap-title">Speed & Search Optimization</h3>
+            <p class="cap-description">
+              We build your site with solid technical SEO foundations so Google and your customers find you easily. Fast pages rank higher and convert better.
+            </p>
+            <ul class="cap-features-list">
+              <li>Top tier Google Core Web Vitals</li>
+              <li>Semantic markup & social share previews</li>
+              <li>Search engine indexing & XML sitemaps</li>
+            </ul>
+            <div class="card-glass-bottom">
+              <span class="cap-meta-tag">Google-Ready</span>
+              <a href="#contact" class="cap-action-link" onclick="prefillServiceInput('Speed & Search Optimization')">Talk to us ↗</a>
+            </div>
+          </article>
+
+          <!-- Service 05 -->
+          <article class="glass-capability-card" data-service="Maintenance & Support">
+            <div class="card-glass-top">
+              <span class="cap-num">05</span>
+              <span class="cap-category">Care & Updates</span>
+            </div>
+            <h3 class="cap-title">Maintenance & Ongoing Support</h3>
+            <p class="cap-description">
+              You won't be left on your own after launch. We provide regular updates, security checks, and quick turnarounds whenever you want to add new content.
+            </p>
+            <ul class="cap-features-list">
+              <li>Quick updates whenever you need them</li>
+              <li>Regular security & browser checks</li>
+              <li>Direct founder communication</li>
+            </ul>
+            <div class="card-glass-bottom">
+              <span class="cap-meta-tag">Reliable</span>
+              <a href="#contact" class="cap-action-link" onclick="prefillServiceInput('Maintenance & Ongoing Support')">Talk to us ↗</a>
+            </div>
+          </article>
+
+          <!-- Service 06 -->
+          <article class="glass-capability-card" data-service="Custom Solutions">
+            <div class="card-glass-top">
+              <span class="cap-num">06</span>
+              <span class="cap-category">Admin & Tools</span>
+            </div>
+            <h3 class="cap-title">Private Admin Portals & Tools</h3>
+            <p class="cap-description">
+              Simple backends and admin portals built specifically for your needs. Update your photos, text, and review customer inquiries anytime without touching code.
+            </p>
+            <ul class="cap-features-list">
+              <li>Custom admin dashboard for you</li>
+              <li>Real-time client leads & inquiries</li>
+              <li>Easy photo & text updates</li>
+            </ul>
+            <div class="card-glass-bottom">
+              <span class="cap-meta-tag">Easy Control</span>
+              <a href="#contact" class="cap-action-link" onclick="prefillServiceInput('Private Admin Portals & Tools')">Talk to us ↗</a>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         SELECTED WORK: 4 REAL PROJECT CASE STUDIES IN FROSTED GLASS
+         ========================================================================== -->
+    <section class="section-glass-showcase" id="work">
+      <div class="container">
+        
+        <div class="showcase-header-split">
+          <div>
+            <div class="title-meta-badge">
+              <span>Selected Work</span>
+            </div>
+            <h2 class="section-monumental-heading" style="margin-bottom:0;">
+              Recent projects we've built.
+            </h2>
+          </div>
+          <p class="section-lead-copy" style="max-width:380px; margin:0;">
+            A few examples of our recent client work. Real businesses, custom code, and measurable growth.
+          </p>
+        </div>
+
+        <div class="glass-showcase-grid">
+          
+          <!-- Project 01: Brand & E-commerce -->
+          <article class="glass-project-card" id="project01">
+            <div class="project-viewport-frame">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80" alt="Brand & E-commerce" class="project-img" id="imgProject01">
+              <div class="viewport-hud-overlay">
+                <span class="glass-chip-badge">E-Commerce</span>
+                <span class="glass-chip-badge dark">+42% Online Sales</span>
+              </div>
+            </div>
+            <div class="project-content-pane">
+              <div class="project-meta-row">
+                <span class="project-num">Project 01</span>
+                <span>Home & Lifestyle Goods</span>
+              </div>
+              <h3 class="project-title" id="titleProject01">Objects for Living — Curated Store</h3>
+              <p class="project-summary" id="descProject01">
+                An artisan lifestyle brand selling handcrafted ceramic and wooden objects. Features smooth 3D product previews and a seamless checkout experience.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-pill">Online Store</span>
+                <span class="tag-pill">Product Storytelling</span>
+                <span class="tag-pill">Mobile Checkout</span>
+              </div>
+              <div class="project-actions-row">
+                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Objects for Living')">
+                  <span>Build something like this ↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 02: Creative Portfolio -->
+          <article class="glass-project-card" id="project02">
+            <div class="project-viewport-frame">
+              <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Creative Portfolio" class="project-img" id="imgProject02">
+              <div class="viewport-hud-overlay">
+                <span class="glass-chip-badge">Portfolio</span>
+                <span class="glass-chip-badge dark">Architecture Studio</span>
+              </div>
+            </div>
+            <div class="project-content-pane">
+              <div class="project-meta-row">
+                <span class="project-num">Project 02</span>
+                <span>Design & Architecture</span>
+              </div>
+              <h3 class="project-title" id="titleProject02">Form & Space — Architecture Studio</h3>
+              <p class="project-summary" id="descProject02">
+                A clean, editorial portfolio for a boutique architecture practice. Full-bleed gallery imagery, fluid mobile transitions, and an interactive spatial project index.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-pill">Creative Portfolio</span>
+                <span class="tag-pill">Editorial Typography</span>
+                <span class="tag-pill">Interactive Gallery</span>
+              </div>
+              <div class="project-actions-row">
+                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Form & Space')">
+                  <span>Build something like this ↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 03: Business Dashboard -->
+          <article class="glass-project-card" id="project03">
+            <div class="project-viewport-frame">
+              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Business Dashboard" class="project-img" id="imgProject03">
+              <div class="viewport-hud-overlay">
+                <span class="glass-chip-badge">Web Application</span>
+                <span class="glass-chip-badge dark">Real-Time Data</span>
+              </div>
+            </div>
+            <div class="project-content-pane">
+              <div class="project-meta-row">
+                <span class="project-num">Project 03</span>
+                <span>SaaS & Analytics</span>
+              </div>
+              <h3 class="project-title" id="titleProject03">Pulse Analytics — Business Dashboard</h3>
+              <p class="project-summary" id="descProject03">
+                A clear, uncluttered dashboard for founders to monitor their core metrics. Fast data rendering, accessible contrast, and zero confusing clutter.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-pill">Web Application</span>
+                <span class="tag-pill">Clean Data Views</span>
+                <span class="tag-pill">Fast Performance</span>
+              </div>
+              <div class="project-actions-row">
+                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Pulse Analytics')">
+                  <span>Build something like this ↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 04: Local Business Site -->
+          <article class="glass-project-card" id="project04">
+            <div class="project-viewport-frame">
+              <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" alt="Local Business Site" class="project-img" id="imgProject04">
+              <div class="viewport-hud-overlay">
+                <span class="glass-chip-badge">Local Business</span>
+                <span class="glass-chip-badge dark">3.4x Booking Lift</span>
+              </div>
+            </div>
+            <div class="project-content-pane">
+              <div class="project-meta-row">
+                <span class="project-num">Project 04</span>
+                <span>Bakery & Café</span>
+              </div>
+              <h3 class="project-title" id="titleProject04">Flour & Stone — Artisanal Bakery</h3>
+              <p class="project-summary" id="descProject04">
+                A warm, inviting website for an artisan sourdough bakery. Includes online pre-orders, daily seasonal menus, and a direct inquiry form for private catering events.
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-pill">Business Website</span>
+                <span class="tag-pill">Online Ordering</span>
+                <span class="tag-pill">Local SEO</span>
+              </div>
+              <div class="project-actions-row">
+                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Flour & Stone')">
+                  <span>Build something like this ↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         ABOUT SECTION: WHO WE ARE, VALUES & PROVEN RESULTS
+         ========================================================================== -->
+    <section class="section-glass-manifesto" id="about">
+      <div class="container">
+        
+        <div class="section-title-lockup">
+          <div class="title-meta-badge">
+            <span>About Us</span>
+          </div>
+          <h2 class="section-monumental-heading">
+            Simple, honest websites that work.
+          </h2>
+          <p class="section-lead-copy">
+            We are an independent web design & development studio. We don't use confusing jargon or bloated templates. We craft fast, clear websites that turn visitors into paying customers.
+          </p>
+        </div>
+
+        <div class="manifesto-glass-quote-card">
+          <span class="manifesto-chip">✦ OUR APPROACH</span>
+          <blockquote class="manifesto-quote-text">
+            "The best websites load instantly, feel natural to navigate on mobile, and clearly convey why your business matters without any fluff."
+          </blockquote>
+          <div class="manifesto-attribution">
+            <strong>LENORA DEVELOPERS</strong>
+            <span>Clean Code · Mobile-First · Direct Communication</span>
+          </div>
+        </div>
+
+        <!-- 4 Core Pillars -->
+        <div class="glass-honors-row">
+          <div class="honor-glass-unit">
+            <span class="honor-val">⚡ Fast</span>
+            <span class="honor-title">Under 1 Second</span>
+            <span class="honor-desc">Lightning-fast pages keep visitors engaged and boost Google rankings.</span>
+          </div>
+          <div class="honor-glass-unit">
+            <span class="honor-val">📱 Mobile</span>
+            <span class="honor-title">Mobile-First</span>
+            <span class="honor-desc">Engineered specifically for phones so mobile users never get frustrated.</span>
+          </div>
+          <div class="honor-glass-unit">
+            <span class="honor-val">🤝 Direct</span>
+            <span class="honor-title">Founder Direct</span>
+            <span class="honor-desc">You talk directly to the person designing and building your site.</span>
+          </div>
+          <div class="honor-glass-unit">
+            <span class="honor-val">✨ Custom</span>
+            <span class="honor-title">100% Hand-Crafted</span>
+            <span class="honor-desc">Clean, tailored code with an easy admin portal to change text anytime.</span>
+          </div>
+        </div>
+
+        <!-- Live Moving Mini Review Banner (Continuously Scrolling Ticker) -->
+        <div class="reviews-mini-banner" style="margin-top: 52px;">
+          
+          <div class="reviews-banner-header">
+            <div class="reviews-live-badge">
+              <span class="reviews-pulse-dot"></span>
+              <span>LIVE CLIENT REVIEWS</span>
+            </div>
+            <span class="reviews-banner-hint">Hover or tap cards to pause ⏸</span>
+          </div>
+
+          <div class="reviews-banner-viewport" id="reviewsBannerViewport" aria-label="Customer reviews moving banner">
+            <div class="reviews-banner-track" id="reviewsBannerTrack">
+              
+              <!-- Set 1 of Review Cards -->
+              <div class="reviews-banner-group">
+                
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">+140% Mobile Sales</span>
+                  </div>
+                  <p class="r-quote">
+                    “They rebuilt our website to be completely mobile-friendly. Bounce rate dropped 45% and our inquiries doubled within weeks.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">MV</div>
+                    <div class="r-info">
+                      <strong class="r-name">Marcus Vance</strong>
+                      <span class="r-role">Founder, Vance Living</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">&lt;300ms Load Time</span>
+                  </div>
+                  <p class="r-quote">
+                    “Direct communication with the actual coders, zero agency fluff, and our new site loads instantly on phones. Outstanding work.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">ER</div>
+                    <div class="r-info">
+                      <strong class="r-name">Elena Rostova</strong>
+                      <span class="r-role">Creative Director, Kroma 3D</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">Ahead of Schedule</span>
+                  </div>
+                  <p class="r-quote">
+                    “Clean design, simple to update, and they delivered right on schedule. The best decision we made for our business this year.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">DC</div>
+                    <div class="r-info">
+                      <strong class="r-name">David Chen</strong>
+                      <span class="r-role">CEO, Pulse Analytics</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">3.4x Pre-Orders</span>
+                  </div>
+                  <p class="r-quote">
+                    “Our customers love ordering on their phones now. Clean typography, smooth transitions, and catering inquiries poured in.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">SJ</div>
+                    <div class="r-info">
+                      <strong class="r-name">Sarah Jenkins</strong>
+                      <span class="r-role">Owner, Flour & Stone Café</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">Top PageSpeed</span>
+                  </div>
+                  <p class="r-quote">
+                    “No bloated WordPress templates. Pure, fast, handcrafted code that looks incredible on retina phone screens.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">JH</div>
+                    <div class="r-info">
+                      <strong class="r-name">Julian Hayes</strong>
+                      <span class="r-role">Partner, Studio Veloce</span>
+                    </div>
+                  </div>
+                </article>
+
+              </div>
+
+              <!-- Set 2 (Identical Clone for Seamless Infinite Loop) -->
+              <div class="reviews-banner-group" aria-hidden="true">
+                
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">+140% Mobile Sales</span>
+                  </div>
+                  <p class="r-quote">
+                    “They rebuilt our website to be completely mobile-friendly. Bounce rate dropped 45% and our inquiries doubled within weeks.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">MV</div>
+                    <div class="r-info">
+                      <strong class="r-name">Marcus Vance</strong>
+                      <span class="r-role">Founder, Vance Living</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">&lt;300ms Load Time</span>
+                  </div>
+                  <p class="r-quote">
+                    “Direct communication with the actual coders, zero agency fluff, and our new site loads instantly on phones. Outstanding work.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">ER</div>
+                    <div class="r-info">
+                      <strong class="r-name">Elena Rostova</strong>
+                      <span class="r-role">Creative Director, Kroma 3D</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">Ahead of Schedule</span>
+                  </div>
+                  <p class="r-quote">
+                    “Clean design, simple to update, and they delivered right on schedule. The best decision we made for our business this year.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">DC</div>
+                    <div class="r-info">
+                      <strong class="r-name">David Chen</strong>
+                      <span class="r-role">CEO, Pulse Analytics</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">3.4x Pre-Orders</span>
+                  </div>
+                  <p class="r-quote">
+                    “Our customers love ordering on their phones now. Clean typography, smooth transitions, and catering inquiries poured in.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">SJ</div>
+                    <div class="r-info">
+                      <strong class="r-name">Sarah Jenkins</strong>
+                      <span class="r-role">Owner, Flour & Stone Café</span>
+                    </div>
+                  </div>
+                </article>
+
+                <article class="review-banner-card">
+                  <div class="r-card-top">
+                    <div class="r-stars">★★★★★</div>
+                    <span class="r-metric-chip">Top PageSpeed</span>
+                  </div>
+                  <p class="r-quote">
+                    “No bloated WordPress templates. Pure, fast, handcrafted code that looks incredible on retina phone screens.”
+                  </p>
+                  <div class="r-author">
+                    <div class="r-avatar">JH</div>
+                    <div class="r-info">
+                      <strong class="r-name">Julian Hayes</strong>
+                      <span class="r-role">Partner, Studio Veloce</span>
+                    </div>
+                  </div>
+                </article>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+<!-- ==========================================================================
+         REACH OUT & CONTACT SECTION (IN LAST — WITH DIRECT INSTAGRAM CONNECT)
+         ========================================================================== -->
+    <section class="section-glass-contact" id="contact">
+      <div class="container">
+        
+        <div class="contact-glass-stage">
+          
+          <!-- Left Column: Studio Contacts & Clean Instagram Card -->
+          <div class="contact-left-col">
+            <div class="title-meta-badge">
+              <span>Get in touch</span>
+            </div>
+            
+            <h2 class="section-monumental-heading">
+              Let's build something you're proud of.
+            </h2>
+
+            <p class="contact-lead-copy">
+              Tell us a little about your project, your timeline, or any questions you have. We read every brief and reply within 24 hours.
+            </p>
+
+            <div class="contact-channels-list">
+              <div class="channel-item">
+                <span class="channel-label">Direct Email</span>
+                <a href="mailto:lenoradevelopersind@gmail.com" class="channel-value" id="contactEmailLink" title="Click to open your email app">lenoradevelopersind@gmail.com</a>
+              </div>
+              <div class="channel-item">
+                <span class="channel-label">Location</span>
+                <span class="channel-value" id="contactLocationText">Global Remote Working</span>
+              </div>
+              <div class="channel-item">
+                <span class="channel-label">Instagram ID</span>
+                <a href="https://www.instagram.com/lenoradevelopers?exln=MW5uaGplNTByZzE3eA==" target="_blank" rel="noopener" class="channel-value instagram-app-trigger" id="contactIgLink" data-ig-handle="lenoradevelopers" title="Click to open in Instagram app"><span id="igHandleText">@lenoradevelopers</span> ↗</a>
+              </div>
+              <div class="channel-item">
+                <span class="channel-label">Our Guarantee</span>
+                <span class="channel-value" style="font-size:14px; font-weight:500; color:var(--text-secondary);">
+                  Honest communication, clear timelines, and dedicated care.
+                </span>
+              </div>
+            </div>
+
+            <div class="sla-response-pill">
+              <span class="sla-dot"></span>
+              <span>We reply to all inquiries within 24 hours</span>
+            </div>
+          </div>
+
+          <!-- Right Column: Interactive Consultation Form -->
+          <div class="contact-form-col">
+            <form class="glass-inquiry-form" id="consultationForm">
+              
+              <!-- Anti-bot honeypot trap (Hidden from real users, catches automated scrapers) -->
+              <div style="position: absolute; left: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+                <input type="text" name="_hp_security_check" id="hpSecurityCheck" tabindex="-1" autocomplete="off">
+              </div>
+
+              <div class="form-grid-2col">
+                <div class="form-input-group">
+                  <label for="contactName">Your Name <span class="req">*</span></label>
+                  <input type="text" id="contactName" name="name" placeholder="What should we call you?" required maxlength="80" autocomplete="name">
+                </div>
+                <div class="form-input-group">
+                  <label for="contactEmail">Email Address <span class="req">*</span></label>
+                  <input type="email" id="contactEmail" name="email" placeholder="you@company.com" required maxlength="100" autocomplete="email">
+                </div>
+              </div>
+
+              <div class="form-input-group">
+                <label for="contactService">What kind of project is this?</label>
+                <select id="contactService" name="service">
+                  <option value="Custom Web Design">Custom Web Design</option>
+                  <option value="Full-Stack Web Development">Full-Stack Web Development</option>
+                  <option value="E-Commerce & Online Store">E-Commerce & Online Store</option>
+                  <option value="Portfolio Website">Portfolio Website</option>
+                  <option value="Website Redesign">Website Redesign</option>
+                  <option value="Speed & SEO Optimization">Speed & SEO Optimization</option>
+                  <option value="Other Custom Project">Other Custom Project</option>
+                </select>
+              </div>
+
+              <div class="form-input-group">
+                <label for="contactMessage">Tell us a little about your project <span class="req">*</span></label>
+                <textarea id="contactMessage" name="message" placeholder="A few words about what you're building, your ideal timeline, or any links to inspiration..." required maxlength="3000"></textarea>
+              </div>
+
+              <button type="submit" class="btn-solid-primary full-width" id="submitBtn">
+                <span>Send project brief</span>
+                <span class="btn-arrow">↗</span>
+              </button>
+
+              <div class="form-status-box" id="formStatusNotice" role="status"></div>
+
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER (SECRET ADMIN SHORTCUT: Triple click copyright or press Ctrl+Shift+A)
+       ========================================================================== -->
+  <footer class="glass-footer">
+    <div class="container footer-content-grid">
+      
+      <div class="footer-col-about">
+        <a href="#hero" class="nav-brand" aria-label="Lenora Developers Home">
+          <span class="brand-crystal-prism">●</span>
+          <span class="brand-text">LENORA <span>DEVELOPERS</span></span>
+        </a>
+        <p class="footer-brand-bio">
+          Independent design and development studio crafting fast, memorable, custom websites for growing brands and creative businesses.
+        </p>
+      </div>
+
+      <div class="footer-col-nav">
+        <span class="footer-heading">Navigation</span>
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+
+      <div class="footer-col-nav">
+        <span class="footer-heading">Standards</span>
+        <span>Clean Code</span>
+        <span>Fast Loading</span>
+        <span>No Templates</span>
+        <span>Mobile-First</span>
+        <span>Direct Communication</span>
+      </div>
+
+      <div class="footer-col-cta">
+        <span class="footer-heading">Connect</span>
+        <a href="https://www.instagram.com/lenoradevelopers?exln=MW5uaGplNTByZzE3eA==" target="_blank" rel="noopener" class="footer-social-link instagram-app-trigger" data-ig-handle="lenoradevelopers" title="Open Instagram App">
+          <span>Instagram @lenoradevelopers ↗</span>
+        </a>
+        <a href="mailto:lenoradevelopersind@gmail.com" class="footer-social-link" style="margin-top:6px;" title="Open Email App">
+          <span>lenoradevelopersind@gmail.com ✉</span>
+        </a>
+      </div>
+
+    </div>
+
+    <div class="container footer-sub-bar">
+      <!-- Secret triple-click listener on copyright allows owner admin access -->
+      <div class="footer-copyright" id="secretAdminTrigger" title="Lenora Developers © 2026">
+        © 2026 LENORA DEVELOPERS. ALL RIGHTS RESERVED.
+      </div>
+      <div class="footer-tagline">
+        CRAFTED WITH CARE · INDEPENDENT STUDIO
+      </div>
+      <a href="#" class="footer-back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+        <span>Back to top ↑</span>
+      </a>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       MOBILE-FIRST FLOATING QUICK-ACTION DOCK (THUMB CONVERSION BAR)
+       ========================================================================== -->
+  <aside class="mobile-bottom-dock" id="mobileBottomDock" aria-label="Quick contact actions">
+    <a href="mailto:lenoradevelopersind@gmail.com" class="dock-btn-email" id="dockEmailLink" title="Send Email">
+      <span class="dock-btn-icon">✉</span>
+      <span>Email</span>
+    </a>
+    <a href="#contact" class="dock-btn-inquire">
+      <span>Start a project</span>
+      <span class="dock-btn-arrow">↗</span>
+    </a>
+  </aside>
+
+  <!-- Main JavaScript Engine (Three.js WebGL, 3D Tilt, Scroll Triggers, Secret Shortcut Ctrl+Shift+A) -->
+  <script src="js/main.js"></script>
+</body>
+</html>

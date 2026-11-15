@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lenora Developers — Internal Admin Portal</title>
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Typography Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Cloud SDKs (Supabase & Firebase Compat) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  
+  <!-- Admin Stylesheet -->
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+  <!-- =========================================================================
+       1. AUTHENTICATION GATEWAY (LOGIN VIEW)
+       ========================================================================= -->
+  <main id="loginView" class="admin-auth-wrapper">
+    <div class="glass-auth-card">
+      <div class="auth-card-header">
+        <div class="admin-brand-pill">
+          <span class="brand-dot"></span>
+          <span>INTERNAL PORTAL</span>
+        </div>
+        <h1 class="auth-title">LENORA DEVELOPERS</h1>
+        <p class="auth-subtitle">Restricted Access · Owner & Studio Operations</p>
+      </div>
+
+      <!-- Provider Selector Tabs -->
+      <div class="provider-toggle-group">
+        <button type="button" class="provider-btn active" data-provider="demo" id="btnProviderDemo">
+          <span class="icon">🗝️</span> Master Demo
+        </button>
+        <button type="button" class="provider-btn" data-provider="supabase" id="btnProviderSupabase">
+          <span class="icon">⚡</span> Supabase
+        </button>
+        <button type="button" class="provider-btn" data-provider="firebase" id="btnProviderFirebase">
+          <span class="icon">🔥</span> Firebase
+        </button>
+      </div>
+
+      <!-- Auth Form -->
+      <form id="adminLoginForm" class="admin-form">
+        <div class="form-group">
+          <label for="loginEmail">Email Address</label>
+          <input type="email" id="loginEmail" required autocomplete="username" value="admin@agency.com">
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required autocomplete="current-password" value="admin123">
+        </div>
+
+        <div id="authNotice" class="auth-status-box" role="status"></div>
+
+        <button type="submit" class="btn-admin-primary" id="btnSubmitLogin">
+          <span>SIGN IN TO PORTAL</span>
+          <span class="arrow">→</span>
+        </button>
+      </form>
+
+      <div class="auth-footer-help">
+        <p class="hint-text">
+          <span id="providerHintText">Default Master Demo login: <code>admin@agency.com</code> / <code>admin123</code></span>
+        </p>
+        <button type="button" class="btn-text-link" id="btnOpenCloudModalFromLogin">
+          ⚙️ Setup Supabase or Firebase Keys
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- =========================================================================
+       2. ADMIN COMMAND DASHBOARD (AUTHENTICATED VIEW)
+       ========================================================================= -->
+  <div id="appView" class="admin-dashboard-wrapper" style="display: none;">
+    <!-- Top Glass Navigation Bar -->
+    <header class="admin-topbar">
+      <div class="topbar-brand">
+        <div class="brand-monogram">LD</div>
+        <div>
+          <span class="brand-name">LENORA DEVELOPERS</span>
+          <span class="brand-badge">ADMIN CONSOLE</span>
+        </div>
+      </div>
+
+      <div class="topbar-status-indicator">
+        <span class="status-dot online"></span>
+        <span id="activeProviderLabel">Master Mode</span>
+        <span class="session-user" id="activeUserLabel">admin@agency.com</span>
+      </div>
+
+      <div class="topbar-actions">
+        <a href="index.html" target="_blank" class="btn-admin-subtle">
+          <span>View Live Site</span>
+          <span class="arrow">↗</span>
+        </a>
+        <button type="button" class="btn-admin-subtle" id="btnOpenCloudModal">
+          <span>⚙️ Cloud Keys</span>
+        </button>
+        <button type="button" class="btn-admin-danger" id="btnLogout">
+          <span>Log Out</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Metrics Ribbon -->
+    <section class="admin-metrics-grid">
+      <div class="glass-metric-card">
+        <div class="metric-header">
+          <span class="metric-title">TOTAL BRIEFS</span>
+          <span class="metric-icon">📥</span>
+        </div>
+        <div class="metric-value" id="metricTotalInquiries">0</div>
+        <span class="metric-subtext">Received via consultation form</span>
+      </div>
+
+      <div class="glass-metric-card">
+        <div class="metric-header">
+          <span class="metric-title">NEW / UNREAD</span>
+          <span class="metric-icon">✦</span>
+        </div>
+        <div class="metric-value" id="metricNewInquiries">0</div>
+        <span class="metric-subtext">Requires team follow-up</span>
+      </div>
+
+      <div class="glass-metric-card">
+        <div class="metric-header">
+          <span class="metric-title">FLAGSHIP PROJECTS</span>
+          <span class="metric-icon">💼</span>
+        </div>
+        <div class="metric-value" id="metricProjectsCount">4</div>
+        <span class="metric-subtext">Active showcase studies</span>
+      </div>
+
+      <div class="glass-metric-card">
+        <div class="metric-header">
+          <span class="metric-title">DATABASE SYNC</span>
+          <span class="metric-icon">⚡</span>
+        </div>
+        <div class="metric-value" id="metricDatabaseStatus" style="font-size:24px; line-height:36px;">LOCAL READY</div>
+        <span class="metric-subtext" id="metricDatabaseSubtext">Connected via browser & cloud bridge</span>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <nav class="admin-tab-nav">
+      <button type="button" class="tab-btn active" data-tab="tabInquiries">
+        <span>📥 Inquiries & Leads</span>
+        <span class="badge" id="leadsCountBadge">0</span>
+      </button>
+      <button type="button" class="tab-btn" data-tab="tabContent">
+        <span>✍️ Live Site Content</span>
+      </button>
+      <button type="button" class="tab-btn" data-tab="tabPortfolio">
+        <span>🖼️ Portfolio & Media</span>
+      </button>
+      <button type="button" class="tab-btn" data-tab="tabCloud">
+        <span>☁️ Cloud Database & Auth</span>
+      </button>
+    </nav>
+
+    <!-- =======================================================================
+         TAB 1: INQUIRIES & LEADS INBOX
+         ======================================================================= -->
+    <section id="tabInquiries" class="tab-content active">
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Consultation Inquiries & Leads</h2>
+            <p class="panel-desc">All client project requests transmitted through the website contact form.</p>
+          </div>
+          <div class="panel-actions">
+            <button type="button" class="btn-admin-subtle" id="btnGenerateDemoLead">
+              + Generate Test Lead
+            </button>
+            <button type="button" class="btn-admin-subtle" id="btnExportCSV">
+              📥 Export CSV
+            </button>
+            <button type="button" class="btn-admin-danger" id="btnClearAllLeads">
+              Clear All
+            </button>
+          </div>
+        </div>
+
+        <div class="table-filters">
+          <div class="filter-pill-group">
+            <button type="button" class="filter-pill active" data-filter="all">All (<span id="countFilterAll">0</span>)</button>
+            <button type="button" class="filter-pill" data-filter="New">New (<span id="countFilterNew">0</span>)</button>
+            <button type="button" class="filter-pill" data-filter="In Progress">In Progress (<span id="countFilterInProgress">0</span>)</button>
+            <button type="button" class="filter-pill" data-filter="Closed">Closed (<span id="countFilterClosed">0</span>)</button>
+          </div>
+          <input type="text" id="leadSearchInput" class="admin-search-input" placeholder="Search by name, email, or service...">
+        </div>
+
+        <!-- Inquiries Table / Container -->
+        <div class="table-responsive">
+          <table class="glass-data-table">
+            <thead>
+              <tr>
+                <th>CLIENT & DATE</th>
+                <th>CONTACT EMAIL</th>
+                <th>REQUESTED SERVICE</th>
+                <th>PROJECT BRIEF</th>
+                <th>STATUS</th>
+                <th style="text-align: right;">ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody id="inquiriesTableBody">
+              <!-- Rendered dynamically by js/admin.js -->
+            </tbody>
+          </table>
+          <div id="emptyLeadsState" class="empty-data-state" style="display: none;">
+            <div class="empty-icon">📭</div>
+            <h3>No Inquiries Found</h3>
+            <p>When prospective clients submit briefs on the main site, they will appear here instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         TAB 2: LIVE SITE CONTENT EDITOR
+         ======================================================================= -->
+    <section id="tabContent" class="tab-content">
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Live Site Content & Branding</h2>
+            <p class="panel-desc">Modify hero headlines, metric statistics, and contact channels without touching code.</p>
+          </div>
+          <button type="button" class="btn-admin-primary" id="btnSaveContent">
+            <span>💾 SAVE & PUBLISH CHANGES</span>
+          </button>
+        </div>
+
+        <form id="siteContentForm" class="admin-grid-form">
+          <div class="form-section-title">Hero Section (Photo Background & Text)</div>
+
+          <div class="form-group">
+            <label for="inputHeroBrandName">Brand Name Display</label>
+            <input type="text" id="inputHeroBrandName" value="LENORA DEVELOPERS">
+          </div>
+
+          <div class="form-group">
+            <label for="inputHeroEyebrow">Top Eyebrow Badge</label>
+            <input type="text" id="inputHeroEyebrow" value="Independent Web Agency">
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="inputHeroHeadline">Hero Main Headline</label>
+            <input type="text" id="inputHeroHeadline" value="We design and build websites people actually remember.">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="inputHeroSubcopy">Hero Sublead Paragraph</label>
+            <textarea id="inputHeroSubcopy" rows="3">Custom web design, interactive 3D touches, and lightning-fast engineering for ambitious brands and creative founders.</textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="inputHeroCtaText">CTA Button Text</label>
+            <input type="text" id="inputHeroCtaText" value="Start a project">
+          </div>
+
+          <div class="form-group">
+            <label for="inputHeroBgUrl">Hero Background Photo URL</label>
+            <input type="text" id="inputHeroBgUrl" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2560&q=85">
+          </div>
+
+          <div class="form-group full-width">
+            <label for="fileHeroBgUpload">Or Upload New Hero Photo (Instant Preview)</label>
+            <input type="file" id="fileHeroBgUpload" accept="image/*" class="admin-file-input">
+          </div>
+
+          <div class="form-section-title">High-Impact Metric Counters</div>
+
+          <div class="form-group">
+            <label for="inputStatSpeed">Performance Score</label>
+            <input type="text" id="inputStatSpeed" value="99.8%">
+          </div>
+
+          <div class="form-group">
+            <label for="inputStatLatency">Global Latency Target</label>
+            <input type="text" id="inputStatLatency" value="<280ms">
+          </div>
+
+          <div class="form-group">
+            <label for="inputStatLift">Conversion Lift</label>
+            <input type="text" id="inputStatLift" value="+280%">
+          </div>
+
+          <div class="form-section-title">Direct Studio Channels & Instagram</div>
+
+          <div class="form-group">
+            <label for="inputContactEmail">Primary Studio Email</label>
+            <input type="email" id="inputContactEmail" value="lenoradevelopersind@gmail.com">
+          </div>
+
+          <div class="form-group">
+            <label for="inputStudioLocation">Location</label>
+            <input type="text" id="inputStudioLocation" value="Global Remote Working">
+          </div>
+
+          <div class="form-group">
+            <label for="inputIgHandle">Instagram Display Handle</label>
+            <input type="text" id="inputIgHandle" value="@lenoradevelopers">
+          </div>
+
+          <div class="form-group">
+            <label for="inputIgUrl">Instagram Direct Profile URL</label>
+            <input type="url" id="inputIgUrl" value="https://www.instagram.com/lenoradevelopers?exln=MW5uaGplNTByZzE3eA==">
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         TAB 3: PORTFOLIO & MEDIA SHOWCASE MANAGER
+         ======================================================================= -->
+    <section id="tabPortfolio" class="tab-content">
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Portfolio Projects & Media Showcase</h2>
+            <p class="panel-desc">Update case study photography, headlines, and descriptions directly. Upload local images or paste high-res URLs.</p>
+          </div>
+          <button type="button" class="btn-admin-primary" id="btnSaveProjects">
+            <span>💾 SAVE PORTFOLIO SHOWCASE</span>
+          </button>
+        </div>
+
+        <div class="portfolio-manager-grid">
+          <!-- Hero 3D Card Image -->
+          <div class="glass-project-editor-card hero-special">
+            <div class="card-tag">HERO 3D SHOWCASE CARD</div>
+            <h3>Featured Hero Perspective Image</h3>
+            <div class="image-preview-box">
+              <img id="previewHeroImage" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80" alt="Hero Preview">
+            </div>
+            <div class="form-group">
+              <label>Image Source URL</label>
+              <input type="text" id="inputHeroImgUrl" value="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80">
+            </div>
+            <div class="form-group">
+              <label>Or Upload Local Photo</label>
+              <input type="file" id="fileHeroImg" accept="image/*" class="admin-file-input">
+            </div>
+          </div>
+
+          <!-- Project 01 -->
+          <div class="glass-project-editor-card">
+            <div class="card-tag">FLAGSHIP PROJECT 01</div>
+            <div class="image-preview-box">
+              <img id="previewImg01" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80" alt="Project 1 Preview">
+            </div>
+            <div class="form-group">
+              <label>Project Title</label>
+              <input type="text" id="inputTitle01" value="Brand & E-commerce — Objects for Living">
+            </div>
+            <div class="form-group">
+              <label>Project Description</label>
+              <textarea id="inputDesc01" rows="2">Interactive 3D product showcase and smooth checkout experience that increased direct sales by 42%.</textarea>
+            </div>
+            <div class="form-group">
+              <label>Image URL</label>
+              <input type="text" id="inputImg01" value="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80">
+            </div>
+            <div class="form-group">
+              <label>Or Upload Photo</label>
+              <input type="file" id="fileImg01" accept="image/*" class="admin-file-input">
+            </div>
+          </div>
+
+          <!-- Project 02 -->
+          <div class="glass-project-editor-card">
+            <div class="card-tag">FLAGSHIP PROJECT 02</div>
+            <div class="image-preview-box">
+              <img id="previewImg02" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Project 2 Preview">
+            </div>
+            <div class="form-group">
+              <label>Project Title</label>
+              <input type="text" id="inputTitle02" value="Creative Portfolio — Spaces That Inspire">
+            </div>
+            <div class="form-group">
+              <label>Project Description</label>
+              <textarea id="inputDesc02" rows="2">Minimalist portfolio for an architectural design studio featuring fluid typography and bespoke spatial layouts.</textarea>
+            </div>
+            <div class="form-group">
+              <label>Image URL</label>
+              <input type="text" id="inputImg02" value="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80">
+            </div>
+            <div class="form-group">
+              <label>Or Upload Photo</label>
+              <input type="file" id="fileImg02" accept="image/*" class="admin-file-input">
+            </div>
+          </div>
+
+          <!-- Project 03 -->
+          <div class="glass-project-editor-card">
+            <div class="card-tag">FLAGSHIP PROJECT 03</div>
+            <div class="image-preview-box">
+              <img id="previewImg03" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Project 3 Preview">
+            </div>
+            <div class="form-group">
+              <label>Project Title</label>
+              <input type="text" id="inputTitle03" value="Business Dashboard — Your Numbers in Focus">
+            </div>
+            <div class="form-group">
+              <label>Project Description</label>
+              <textarea id="inputDesc03" rows="2">Data analytics platform with real-time charting, dark/light modes, and lightning-fast sub-second responses.</textarea>
+            </div>
+            <div class="form-group">
+              <label>Image URL</label>
+              <input type="text" id="inputImg03" value="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80">
+            </div>
+            <div class="form-group">
+              <label>Or Upload Photo</label>
+              <input type="file" id="fileImg03" accept="image/*" class="admin-file-input">
+            </div>
+          </div>
+
+          <!-- Project 04 -->
+          <div class="glass-project-editor-card">
+            <div class="card-tag">FLAGSHIP PROJECT 04</div>
+            <div class="image-preview-box">
+              <img id="previewImg04" src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" alt="Project 4 Preview">
+            </div>
+            <div class="form-group">
+              <label>Project Title</label>
+              <input type="text" id="inputTitle04" value="Local Business Site — Good Food. Good Mood.">
+            </div>
+            <div class="form-group">
+              <label>Project Description</label>
+              <textarea id="inputDesc04" rows="2">Digital identity, reservation system, and dynamic seasonal menu for an artisanal bakery and café.</textarea>
+            </div>
+            <div class="form-group">
+              <label>Image URL</label>
+              <input type="text" id="inputImg04" value="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80">
+            </div>
+            <div class="form-group">
+              <label>Or Upload Photo</label>
+              <input type="file" id="fileImg04" accept="image/*" class="admin-file-input">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         TAB 4: CLOUD DATABASE & AUTH CONFIGURATION
+         ======================================================================= -->
+    <section id="tabCloud" class="tab-content">
+      <div class="glass-panel">
+        <div class="panel-header">
+          <div>
+            <h2 class="panel-title">Cloud Database & Authentication</h2>
+            <p class="panel-desc">Connect Supabase or Firebase to manage real-time client leads and secure admin authentication in the cloud.</p>
+          </div>
+          <button type="button" class="btn-admin-primary" id="btnTestCloudConnection">
+            <span>⚡ TEST CONNECTION</span>
+          </button>
+        </div>
+
+        <div class="cloud-provider-config-box">
+          <div class="provider-radio-group">
+            <label class="provider-radio-label">
+              <input type="radio" name="cloudProvider" value="supabase" checked id="radioSupabase">
+              <span>⚡ Supabase (PostgreSQL & Realtime Auth)</span>
+            </label>
+            <label class="provider-radio-label">
+              <input type="radio" name="cloudProvider" value="firebase" id="radioFirebase">
+              <span>🔥 Firebase (Google Firestore & Auth)</span>
+            </label>
+          </div>
+
+          <!-- Supabase Fields -->
+          <div id="supabaseConfigFields" class="provider-fields">
+            <div class="form-group full-width">
+              <label for="inputSupabaseUrl">Supabase Project URL</label>
+              <input type="url" id="inputSupabaseUrl" placeholder="https://your-project.supabase.co">
+            </div>
+            <div class="form-group full-width">
+              <label for="inputSupabaseAnonKey">Supabase Anon Public Key</label>
+              <input type="text" id="inputSupabaseAnonKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+            </div>
+          </div>
+
+          <!-- Firebase Fields -->
+          <div id="firebaseConfigFields" class="provider-fields" style="display: none;">
+            <div class="form-group full-width">
+              <label for="inputFirebaseConfigJson">Firebase Config Object (JSON)</label>
+              <textarea id="inputFirebaseConfigJson" rows="6" placeholder='{
+  "apiKey": "AIzaSy...",
+  "authDomain": "your-app.firebaseapp.com",
+  "projectId": "your-app",
+  "storageBucket": "your-app.appspot.com",
+  "messagingSenderId": "...",
+  "appId": "..."
+}'></textarea>
+            </div>
+          </div>
+
+          <div class="config-actions-row">
+            <button type="button" class="btn-admin-primary" id="btnSaveCloudConfig">
+              <span>SAVE CLOUD CONFIGURATION</span>
+            </button>
+            <button type="button" class="btn-admin-subtle" id="btnSyncLocalToCloud">
+              <span>SYNC LOCAL LEADS TO CLOUD ↑</span>
+            </button>
+          </div>
+
+          <!-- 1-Click SQL & Rule Generators -->
+          <div class="cloud-helper-cards">
+            <div class="helper-card">
+              <div class="helper-header">
+                <strong>Supabase SQL Table Schema & Zero-Leak RLS</strong>
+                <button type="button" class="btn-copy-code" id="btnCopySupabaseSql">Copy SQL</button>
+              </div>
+              <pre class="code-box"><code>-- Create inquiries table in Supabase SQL editor:
+create table if not exists inquiries (
+  id uuid default gen_random_uuid() primary key,
+  name text not null,
+  email text not null,
+  service text,
+  message text,
+  status text default 'New',
+  created_at timestamp with time zone default timezone('utc'::text, now())
+);
+
+-- Enable Row Level Security (BLOCKS ALL READS BY DEFAULT):
+alter table inquiries enable row level security;
+
+-- 1. Public leads submission (INSERT ONLY - zero read permissions for anon):
+create policy "Allow insert for visitors" on inquiries 
+  for insert to anon, authenticated 
+  with check (true);
+
+-- 2. Authenticated studio owner access (FULL READ/WRITE/DELETE):
+create policy "Allow authenticated admin full access" on inquiries 
+  for all to authenticated 
+  using (auth.role() = 'authenticated') 
+  with check (auth.role() = 'authenticated');</code></pre>
+            </div>
+
+            <div class="helper-card">
+              <div class="helper-header">
+                <strong>Firebase Firestore Security Rules</strong>
+                <button type="button" class="btn-copy-code" id="btnCopyFirebaseRules">Copy Rules</button>
+              </div>
+              <pre class="code-box"><code>// Paste into Firebase Firestore Rules console:
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /inquiries/{inquiryId} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null;
+    }
+  }
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div id="toastContainer" class="admin-toast-container" aria-live="polite"></div>
+
+  <!-- Admin Controller JavaScript -->
+  <script src="js/admin.js"></script>
+</body>
+</html>
