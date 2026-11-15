@@ -179,6 +179,68 @@ function setStorageItem(key, value) {
   }
 }
 
+async function syncContentToServerDisk() {
+  const fullPayload = {
+    siteContent: getStorageItem('lumen_site_content', {}),
+    projects: getStorageItem('lenora_projects_list', DEFAULT_PROJECTS),
+    services: getStorageItem('lenora_services_list', DEFAULT_SERVICES),
+    reviews: getStorageItem('lenora_reviews_list', DEFAULT_REVIEWS)
+  };
+
+  try {
+    const res = await fetch('/api/save-content', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(fullPayload)
+    });
+    if (res.ok) {
+      console.log('✓ Synced to local server disk (data/site-content.json)');
+    }
+  } catch (err) {
+    // Expected on static Cloudflare Pages or offline
+  }
+}
+
+async function preloadServerDataIfEmpty() {
+  try {
+    const hasProjects = localStorage.getItem('lenora_projects_list');
+    const hasContent = localStorage.getItem('lumen_site_content');
+
+    if (!hasProjects || !hasContent) {
+      const res = await fetch('data/site-content.json?v=' + Date.now());
+      if (res.ok) {
+        const data = await res.json();
+        if (data.projects && !hasProjects) setStorageItem('lenora_projects_list', data.projects);
+        if (data.siteContent && !hasContent) setStorageItem('lumen_site_content', data.siteContent);
+        if (data.services && !localStorage.getItem('lenora_services_list')) setStorageItem('lenora_services_list', data.services);
+        if (data.reviews && !localStorage.getItem('lenora_reviews_list')) setStorageItem('lenora_reviews_list', data.reviews);
+      }
+    }
+  } catch (err) {
+    // Fail silently if offline
+  }
+}
+
+window.downloadSiteContentJson = function() {
+  const fullPayload = {
+    siteContent: getStorageItem('lumen_site_content', {}),
+    projects: getStorageItem('lenora_projects_list', DEFAULT_PROJECTS),
+    services: getStorageItem('lenora_services_list', DEFAULT_SERVICES),
+    reviews: getStorageItem('lenora_reviews_list', DEFAULT_REVIEWS)
+  };
+  const jsonStr = JSON.stringify(fullPayload, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'site-content.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('✓ Downloaded data/site-content.json snapshot!');
+};
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str)
@@ -340,7 +402,7 @@ function initAdminAuth() {
     showToast('✓ Welcome back! Admin portal session authorized.');
   }
 
-  function showAppView() {
+  async function showAppView() {
     loginView.style.display = 'none';
     appView.style.display = 'block';
 
@@ -350,6 +412,8 @@ function initAdminAuth() {
     if (activeProviderLabel) {
       activeProviderLabel.textContent = STATE.currentProvider.toUpperCase() + ' MODE';
     }
+
+    await preloadServerDataIfEmpty();
 
     renderInquiries();
     renderDynamicProjectsAdmin();
@@ -787,6 +851,7 @@ function initPortfolioModule() {
 
       projects.unshift(newProj);
       setStorageItem('lenora_projects_list', projects);
+      syncContentToServerDisk();
 
       newProjForm.reset();
       hideNewProjBox();
@@ -913,6 +978,7 @@ window.deleteProject = function(projId) {
   const projects = getStorageItem('lenora_projects_list', DEFAULT_PROJECTS);
   const updated = projects.filter(p => p.id !== projId);
   setStorageItem('lenora_projects_list', updated);
+  syncContentToServerDisk();
   renderDynamicProjectsAdmin();
   showToast('✓ Project removed from showcase');
 };
@@ -983,6 +1049,8 @@ function saveAllProjectsFromDOM() {
   siteContent.heroBgImage = heroVal;
   setStorageItem('lumen_site_content', siteContent);
 
+  syncContentToServerDisk();
+
   renderDynamicProjectsAdmin();
   showToast(`✓ Successfully saved ${projects.length} showcase projects!`);
 }
@@ -992,35 +1060,46 @@ function saveAllProjectsFromDOM() {
    ========================================================================== */
 function initSiteContentModule() {
   const btnSave = document.getElementById('btnSaveContent');
+  const form = document.getElementById('siteContentForm');
 
   setupImagePreview('fileHeroBgUpload', 'inputHeroBgUrl', 'previewHeroImage');
   setupUrlPreview('inputHeroBgUrl', 'previewHeroImage');
 
-  if (btnSave) {
-    btnSave.addEventListener('click', () => {
-      const bgPhoto = document.getElementById('inputHeroBgUrl').value;
-      const content = {
-        brandName: document.getElementById('inputHeroBrandName').value,
-        eyebrow: document.getElementById('inputHeroEyebrow').value,
-        headline: document.getElementById('inputHeroHeadline').value,
-        subcopy: document.getElementById('inputHeroSubcopy').value,
-        ctaText: document.getElementById('inputHeroCtaText').value,
-        heroImage: bgPhoto,
-        heroBgImage: bgPhoto,
-        standard01: document.getElementById('inputStandard01').value,
-        standard02: document.getElementById('inputStandard02').value,
-        standard03: document.getElementById('inputStandard03').value,
-        aboutHeading: document.getElementById('inputAboutHeading').value,
-        aboutLead: document.getElementById('inputAboutLead').value,
-        email: document.getElementById('inputContactEmail').value,
-        location: document.getElementById('inputStudioLocation').value,
-        igHandle: document.getElementById('inputIgHandle').value,
-        igUrl: document.getElementById('inputIgUrl').value,
-        guarantee: document.getElementById('inputGuarantee').value
-      };
+  function saveSiteContentData() {
+    const bgPhoto = document.getElementById('inputHeroBgUrl').value;
+    const content = {
+      brandName: document.getElementById('inputHeroBrandName').value,
+      eyebrow: document.getElementById('inputHeroEyebrow').value,
+      headline: document.getElementById('inputHeroHeadline').value,
+      subcopy: document.getElementById('inputHeroSubcopy').value,
+      ctaText: document.getElementById('inputHeroCtaText').value,
+      heroImage: bgPhoto,
+      heroBgImage: bgPhoto,
+      standard01: document.getElementById('inputStandard01').value,
+      standard02: document.getElementById('inputStandard02').value,
+      standard03: document.getElementById('inputStandard03').value,
+      aboutHeading: document.getElementById('inputAboutHeading').value,
+      aboutLead: document.getElementById('inputAboutLead').value,
+      email: document.getElementById('inputContactEmail').value,
+      location: document.getElementById('inputStudioLocation').value,
+      igHandle: document.getElementById('inputIgHandle').value,
+      igUrl: document.getElementById('inputIgUrl').value,
+      guarantee: document.getElementById('inputGuarantee').value
+    };
 
-      setStorageItem('lumen_site_content', content);
-      showToast('✓ Live Site Content saved & published to website!');
+    setStorageItem('lumen_site_content', content);
+    syncContentToServerDisk();
+    showToast('✓ Live Site Content saved & published to website!');
+  }
+
+  if (btnSave) {
+    btnSave.addEventListener('click', saveSiteContentData);
+  }
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      saveSiteContentData();
     });
   }
 }
@@ -1125,6 +1204,7 @@ function saveServicesFromDOM() {
   });
 
   setStorageItem('lenora_services_list', services);
+  syncContentToServerDisk();
   showToast(`✓ Saved ${services.length} services!`);
 }
 
@@ -1180,6 +1260,7 @@ function initReviewsModule() {
       });
 
       setStorageItem('lenora_reviews_list', reviews);
+      syncContentToServerDisk();
       newRevForm.reset();
       hideNewRevBox();
       renderReviewsAdmin();
@@ -1244,6 +1325,7 @@ window.deleteReview = function(revId) {
   const reviews = getStorageItem('lenora_reviews_list', DEFAULT_REVIEWS);
   const updated = reviews.filter(r => r.id !== revId);
   setStorageItem('lenora_reviews_list', updated);
+  syncContentToServerDisk();
   renderReviewsAdmin();
   showToast('✓ Review removed');
 };
@@ -1270,6 +1352,7 @@ function saveReviewsFromDOM() {
   });
 
   setStorageItem('lenora_reviews_list', reviews);
+  syncContentToServerDisk();
   showToast(`✓ Saved ${reviews.length} reviews for moving banner!`);
 }
 

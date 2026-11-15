@@ -4,7 +4,8 @@
  * Direct App Navigation (Email & Instagram App), Lead Capture, and Hidden Admin Portal.
  */
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  await hydrateAdminContent();
   initGlassScrollEngine();
   init3dCardTiltPhysics();
   initStudioLiveClock();
@@ -14,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initAppNavigationTriggers();
   initContactInquiryForm();
   initSecretAdminShortcut();
-  hydrateAdminContent();
 });
 
 /* ==========================================================================
@@ -631,114 +631,178 @@ function escapeHtmlMain(str) {
     .replace(/'/g, '&#039;');
 }
 
-function hydrateAdminContent() {
+async function hydrateAdminContent() {
+  // 1. Fetch live published site-content.json (works seamlessly on Cloudflare Pages, mobile, and localhost)
+  let cloudData = null;
   try {
-    const savedContent = JSON.parse(localStorage.getItem('lumen_site_content') || '{}');
-    
-    if (savedContent.brandName) {
-      if (/lumen/i.test(savedContent.brandName)) {
-        savedContent.brandName = 'LENORA <span>DEVELOPERS</span>';
-        try { localStorage.setItem('lumen_site_content', JSON.stringify(savedContent)); } catch (e) { }
-      }
-      const bEl = document.getElementById('heroBrandName');
-      if (bEl) bEl.innerHTML = savedContent.brandName;
+    const res = await fetch('data/site-content.json?v=' + Date.now());
+    if (res.ok) {
+      cloudData = await res.json();
     }
-    if (savedContent.eyebrow) {
-      const ebEl = document.getElementById('heroEyebrow');
-      if (ebEl) ebEl.textContent = savedContent.eyebrow;
-    }
-    if (savedContent.headline) {
-      const hEl = document.getElementById('heroMainHeadline');
-      if (hEl) hEl.innerHTML = savedContent.headline;
-    }
-    if (savedContent.subcopy) {
-      const sEl = document.getElementById('heroSubcopy');
-      if (sEl) sEl.textContent = savedContent.subcopy;
-    }
-    if (savedContent.ctaText) {
-      const ctaEl = document.getElementById('heroCtaText');
-      if (ctaEl) ctaEl.textContent = savedContent.ctaText;
-    }
-    const heroBg = savedContent.heroBgImage || savedContent.heroImage;
-    if (heroBg) {
-      const backdrop = document.getElementById('heroPhotoBackdrop');
-      if (backdrop) backdrop.style.backgroundImage = `url("${heroBg}")`;
-      const heroImg = document.getElementById('heroFeaturedImage');
-      if (heroImg) heroImg.src = heroBg;
-    }
-
-    // Micro-proof quality standards
-    if (savedContent.standard01) {
-      const st1 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(1) span:last-child');
-      if (st1) st1.textContent = savedContent.standard01;
-    }
-    if (savedContent.standard02) {
-      const st2 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(3) span:last-child');
-      if (st2) st2.textContent = savedContent.standard02;
-    }
-    if (savedContent.standard03) {
-      const st3 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(5) span:last-child');
-      if (st3) st3.textContent = savedContent.standard03;
-    }
-
-    // Contact and Direct Channels
-    if (savedContent.email) {
-      const emEl = document.getElementById('contactEmailLink');
-      if (emEl) {
-        emEl.textContent = savedContent.email;
-        emEl.href = `mailto:${savedContent.email}`;
-      }
-      const dockEm = document.getElementById('dockEmailLink');
-      if (dockEm) dockEm.href = `mailto:${savedContent.email}`;
-    }
-    if (savedContent.location) {
-      const locEl = document.getElementById('contactLocationText');
-      if (locEl) locEl.textContent = savedContent.location;
-    }
-    if (savedContent.igHandle) {
-      const igEl = document.getElementById('igHandleText');
-      if (igEl) {
-        igEl.textContent = savedContent.igHandle;
-        igEl.setAttribute('data-ig-handle', savedContent.igHandle);
-      }
-      const directIg = document.getElementById('contactIgLink');
-      if (directIg) {
-        directIg.textContent = `${savedContent.igHandle} ↗`;
-        directIg.setAttribute('data-ig-handle', savedContent.igHandle);
-      }
-    }
-    if (savedContent.igUrl) {
-      const directIg = document.getElementById('contactIgLink');
-      if (directIg) directIg.href = savedContent.igUrl;
-      const footerIg = document.querySelector('.footer-social-link.instagram-app-trigger');
-      if (footerIg) footerIg.href = savedContent.igUrl;
-    }
-
-    // 1. DYNAMIC PROJECTS RENDERING (ADD / REMOVE & LIVE WEB LINKS)
-    hydrateDynamicProjects();
-
-    // 2. DYNAMIC SERVICES RENDERING
-    hydrateDynamicServices();
-
-    // 3. DYNAMIC REVIEWS RENDERING
-    hydrateDynamicReviews();
-
   } catch (err) {
-    console.warn('Hydration notice:', err);
+    // Fallback gracefully if offline
+  }
+
+  // 2. Read local overrides from localStorage if present
+  let localContent = {};
+  try {
+    localContent = JSON.parse(localStorage.getItem('lumen_site_content') || '{}');
+  } catch (e) {}
+
+  const mergedContent = Object.assign({}, (cloudData && cloudData.siteContent) || {}, localContent);
+  applySiteContentToDOM(mergedContent);
+
+  // 3. Hydrate Projects (prioritize local edits, else cloudData, else keep defaults)
+  let localProjects = null;
+  try {
+    const raw = localStorage.getItem('lenora_projects_list');
+    if (raw) localProjects = JSON.parse(raw);
+  } catch (e) {}
+
+  const projectsToRender = (Array.isArray(localProjects) && localProjects.length)
+    ? localProjects
+    : ((cloudData && Array.isArray(cloudData.projects) && cloudData.projects.length) ? cloudData.projects : null);
+
+  if (projectsToRender) {
+    renderDynamicProjectsShowcase(projectsToRender);
+  }
+
+  // 4. Hydrate Services
+  let localServices = null;
+  try {
+    const raw = localStorage.getItem('lenora_services_list');
+    if (raw) localServices = JSON.parse(raw);
+  } catch (e) {}
+
+  const servicesToRender = (Array.isArray(localServices) && localServices.length)
+    ? localServices
+    : ((cloudData && Array.isArray(cloudData.services) && cloudData.services.length) ? cloudData.services : null);
+
+  if (servicesToRender) {
+    renderDynamicServicesShowcase(servicesToRender);
+  }
+
+  // 5. Hydrate Reviews
+  let localReviews = null;
+  try {
+    const raw = localStorage.getItem('lenora_reviews_list');
+    if (raw) localReviews = JSON.parse(raw);
+  } catch (e) {}
+
+  const reviewsToRender = (Array.isArray(localReviews) && localReviews.length)
+    ? localReviews
+    : ((cloudData && Array.isArray(cloudData.reviews) && cloudData.reviews.length) ? cloudData.reviews : null);
+
+  if (reviewsToRender) {
+    renderDynamicReviewsShowcase(reviewsToRender);
   }
 }
 
-function hydrateDynamicProjects() {
-  const container = document.getElementById('projectsShowcaseGrid');
-  if (!container) return;
+function applySiteContentToDOM(content) {
+  if (!content) return;
 
-  const rawProjects = localStorage.getItem('lenora_projects_list');
-  if (!rawProjects) return; // Keep server defaults if nothing saved in admin yet
+  if (content.brandName) {
+    const bEl = document.getElementById('heroBrandName');
+    if (bEl) bEl.innerHTML = content.brandName;
+  }
+  if (content.eyebrow) {
+    const ebEl = document.getElementById('heroEyebrow');
+    if (ebEl) ebEl.textContent = content.eyebrow;
+  }
+  if (content.headline) {
+    const hEl = document.getElementById('heroMainHeadline');
+    if (hEl) hEl.innerHTML = content.headline;
+  }
+  if (content.subcopy) {
+    const sEl = document.getElementById('heroSubcopy');
+    if (sEl) sEl.textContent = content.subcopy;
+  }
+  if (content.ctaText) {
+    const ctaEl = document.getElementById('heroCtaText');
+    if (ctaEl) ctaEl.textContent = content.ctaText;
+  }
+  const heroBg = content.heroBgImage || content.heroImage;
+  if (heroBg) {
+    const backdrop = document.getElementById('heroPhotoBackdrop');
+    if (backdrop) backdrop.style.backgroundImage = `url("${heroBg}")`;
+    const heroImg = document.getElementById('heroFeaturedImage');
+    if (heroImg) heroImg.src = heroBg;
+  }
+
+  // Micro-proof quality standards
+  if (content.standard01) {
+    const st1 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(1) span:last-child');
+    if (st1) st1.textContent = content.standard01;
+  }
+  if (content.standard02) {
+    const st2 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(3) span:last-child');
+    if (st2) st2.textContent = content.standard02;
+  }
+  if (content.standard03) {
+    const st3 = document.querySelector('.hero-standards-strip .h-standard-item:nth-child(5) span:last-child');
+    if (st3) st3.textContent = content.standard03;
+  }
+
+  // About Section
+  if (content.aboutHeading) {
+    const abH = document.getElementById('aboutHeading');
+    if (abH) abH.textContent = content.aboutHeading;
+  }
+  if (content.aboutLead) {
+    const abL = document.getElementById('aboutLead');
+    if (abL) abL.textContent = content.aboutLead;
+  }
+
+  // Contact and Direct Channels
+  if (content.email) {
+    const emEl = document.getElementById('contactEmailLink');
+    if (emEl) {
+      emEl.textContent = content.email;
+      emEl.href = `mailto:${content.email}`;
+    }
+    const dockEm = document.getElementById('dockEmailLink');
+    if (dockEm) dockEm.href = `mailto:${content.email}`;
+    const footerEm = document.querySelector('footer a[href^="mailto:"]');
+    if (footerEm) {
+      footerEm.href = `mailto:${content.email}`;
+      const footerEmSpan = footerEm.querySelector('span');
+      if (footerEmSpan) footerEmSpan.textContent = `${content.email} ✉`;
+    }
+  }
+  if (content.location) {
+    const locEl = document.getElementById('contactLocationText');
+    if (locEl) locEl.textContent = content.location;
+  }
+  if (content.igHandle) {
+    const cleanHandle = content.igHandle.replace(/^@/, '');
+    const igEl = document.getElementById('igHandleText');
+    if (igEl) {
+      igEl.textContent = '@' + cleanHandle;
+      igEl.setAttribute('data-ig-handle', cleanHandle);
+    }
+    const directIg = document.getElementById('contactIgLink');
+    if (directIg) {
+      directIg.textContent = `@${cleanHandle} ↗`;
+      directIg.setAttribute('data-ig-handle', cleanHandle);
+    }
+  }
+  if (content.igUrl) {
+    const directIg = document.getElementById('contactIgLink');
+    if (directIg) directIg.href = content.igUrl;
+    const footerIg = document.querySelector('.footer-social-link.instagram-app-trigger');
+    if (footerIg) footerIg.href = content.igUrl;
+  }
+  if (content.guarantee) {
+    const guarEl = document.getElementById('guaranteeText');
+    if (guarEl) guarEl.textContent = content.guarantee;
+  }
+}
+
+function renderDynamicProjectsShowcase(projects) {
+  const container = document.getElementById('projectsShowcaseGrid');
+  if (!container || !Array.isArray(projects)) return;
 
   try {
-    const projects = JSON.parse(rawProjects);
-    if (!Array.isArray(projects) || !projects.length) return;
-
     container.innerHTML = projects.map((p, idx) => {
       const safeTitle = escapeHtmlMain(p.title);
       const safeCat = escapeHtmlMain(p.category || 'Digital Experience');
@@ -794,17 +858,11 @@ function hydrateDynamicProjects() {
   }
 }
 
-function hydrateDynamicServices() {
+function renderDynamicServicesShowcase(services) {
   const container = document.getElementById('servicesGrid');
-  if (!container) return;
-
-  const rawServices = localStorage.getItem('lenora_services_list');
-  if (!rawServices) return;
+  if (!container || !Array.isArray(services)) return;
 
   try {
-    const services = JSON.parse(rawServices);
-    if (!Array.isArray(services) || !services.length) return;
-
     container.innerHTML = services.map((s, idx) => {
       const safeTitle = escapeHtmlMain(s.title);
       const safeCat = escapeHtmlMain(s.category || 'Service');
@@ -835,17 +893,11 @@ function hydrateDynamicServices() {
   }
 }
 
-function hydrateDynamicReviews() {
+function renderDynamicReviewsShowcase(reviews) {
   const track = document.getElementById('reviewsBannerTrack');
-  if (!track) return;
-
-  const rawReviews = localStorage.getItem('lenora_reviews_list');
-  if (!rawReviews) return;
+  if (!track || !Array.isArray(reviews)) return;
 
   try {
-    const reviews = JSON.parse(rawReviews);
-    if (!Array.isArray(reviews) || !reviews.length) return;
-
     function renderGroupHTML() {
       return `
         <div class="reviews-banner-group">

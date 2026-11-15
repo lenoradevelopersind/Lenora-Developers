@@ -434,6 +434,12 @@
             <label for="inputGuarantee">Studio Guarantee Statement</label>
             <input type="text" id="inputGuarantee" value="Honest communication, clear timelines, and dedicated care.">
           </div>
+
+          <div class="form-group full-width" style="display:flex; justify-content:flex-end; gap:12px; margin-top: 16px;">
+            <button type="submit" class="btn-admin-primary">
+              <span>💾 SAVE & PUBLISH CHANGES</span>
+            </button>
+          </div>
         </form>
       </div>
     </section>
@@ -538,6 +544,17 @@
 
         <!-- 1-Click Backup & Restore Zone -->
         <div class="settings-card-group">
+          <div class="settings-action-card">
+            <div class="set-icon">🚀</div>
+            <div class="set-info">
+              <h3>Live Site Snapshot (data/site-content.json)</h3>
+              <p>Every edit in the Admin Portal automatically syncs to <code>data/site-content.json</code> on your server. Click to download a fresh snapshot file or commit to Git to update Cloudflare Pages for all visitors.</p>
+            </div>
+            <button type="button" class="btn-admin-primary" onclick="downloadSiteContentJson()">
+              <span>📥 Download site-content.json</span>
+            </button>
+          </div>
+
           <div class="settings-action-card">
             <div class="set-icon">📦</div>
             <div class="set-info">
@@ -649,6 +666,6 @@
   <div id="toastContainer" class="admin-toast-container" aria-live="polite"></div>
 
   <!-- Admin Controller JavaScript -->
-  <script src="js/admin.js"></script>
+  <script src="js/admin.js?v=20261115c"></script>
 </body>
 </html>
