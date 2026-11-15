@@ -742,7 +742,11 @@ function hydrateDynamicProjects() {
     container.innerHTML = projects.map((p, idx) => {
       const safeTitle = escapeHtmlMain(p.title);
       const safeCat = escapeHtmlMain(p.category || 'Digital Experience');
-      const safeUrl = p.liveUrl ? escapeHtmlMain(p.liveUrl) : '#';
+      let targetUrl = (p.liveUrl || '').trim();
+      if (targetUrl && targetUrl !== '#' && !targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+        targetUrl = 'https://' + targetUrl;
+      }
+      const safeUrl = targetUrl ? escapeHtmlMain(targetUrl) : '#';
       const safeImg = escapeHtmlMain(p.img || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80');
       const safeDesc = escapeHtmlMain(p.desc || '');
       const badgeText = escapeHtmlMain(p.badgeText || '+100% Growth');

@@ -715,12 +715,15 @@ function initPortfolioModule() {
   // Test URL button inside new project form
   if (btnTestNewProjUrl) {
     btnTestNewProjUrl.addEventListener('click', () => {
-      const url = document.getElementById('newProjLiveUrl').value.trim();
+      let url = (document.getElementById('newProjLiveUrl').value || '').trim();
       if (!url) {
         showToast('Please enter a website URL first', 'error');
         return;
       }
-      window.open(url.startsWith('http') ? url : `https://${url}`, '_blank', 'noopener,noreferrer');
+      if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
+      }
+      window.open(url, '_blank', 'noopener,noreferrer');
     });
   }
 
@@ -745,19 +748,26 @@ function initPortfolioModule() {
     newProjForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const title = document.getElementById('newProjTitle').value.trim();
-      const category = document.getElementById('newProjCategory').value.trim();
-      let liveUrl = document.getElementById('newProjLiveUrl').value.trim();
-      if (liveUrl && !liveUrl.startsWith('http://') && !liveUrl.startsWith('https://')) {
+      const titleInput = document.getElementById('newProjTitle');
+      const title = (titleInput ? titleInput.value : '').trim();
+      if (!title) {
+        showToast('Please enter a project title', 'error');
+        if (titleInput) titleInput.focus();
+        return;
+      }
+
+      const category = (document.getElementById('newProjCategory').value || '').trim() || 'Web Experience';
+      let liveUrl = (document.getElementById('newProjLiveUrl').value || '').trim();
+      if (liveUrl && liveUrl !== '#' && !/^https?:\/\//i.test(liveUrl)) {
         liveUrl = 'https://' + liveUrl;
       }
 
-      const badgeText = document.getElementById('newProjBadgeText').value.trim() || '+100% Growth';
-      const badgeType = document.getElementById('newProjBadgeType').value.trim() || category;
-      const img = document.getElementById('newProjImgUrl').value.trim() || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80';
-      const tagsRaw = document.getElementById('newProjTags').value.trim();
+      const badgeText = (document.getElementById('newProjBadgeText').value || '').trim() || '+100% Growth';
+      const badgeType = (document.getElementById('newProjBadgeType').value || '').trim() || category;
+      const img = (document.getElementById('newProjImgUrl').value || '').trim() || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80';
+      const tagsRaw = (document.getElementById('newProjTags').value || '').trim();
       const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : ['Custom Build', 'Fast Load'];
-      const desc = document.getElementById('newProjDesc').value.trim();
+      const desc = (document.getElementById('newProjDesc').value || '').trim() || 'Custom high-performance web experience crafted by Lenora Developers.';
 
       const projects = getStorageItem('lenora_projects_list', DEFAULT_PROJECTS);
       const nextNum = String(projects.length + 1).padStart(2, '0');
@@ -843,7 +853,7 @@ function renderDynamicProjectsAdmin() {
         <div class="form-group">
           <label>Live Website URL (Destination when clicked)</label>
           <div class="input-with-action">
-            <input type="url" class="proj-input-url" value="${safeUrl}" placeholder="https://clientwebsite.com">
+            <input type="text" class="proj-input-url" value="${safeUrl}" placeholder="e.g. clientwebsite.com or https://clientwebsite.com">
             <button type="button" class="btn-admin-subtle small" onclick="testProjectUrl('${p.id}')" title="Test project URL in new tab">
               <span>Test ↗</span>
             </button>
@@ -887,13 +897,15 @@ function renderDynamicProjectsAdmin() {
 window.testProjectUrl = function(projId) {
   const card = document.querySelector(`[data-project-id="${projId}"]`);
   if (!card) return;
-  const url = card.querySelector('.proj-input-url').value.trim();
+  let url = card.querySelector('.proj-input-url').value.trim();
   if (!url) {
     showToast('No URL specified for this project', 'error');
     return;
   }
-  const fullUrl = url.startsWith('http') ? url : `https://${url}`;
-  window.open(fullUrl, '_blank', 'noopener,noreferrer');
+  if (!/^https?:\/\//i.test(url)) {
+    url = 'https://' + url;
+  }
+  window.open(url, '_blank', 'noopener,noreferrer');
 };
 
 window.deleteProject = function(projId) {
@@ -938,7 +950,7 @@ function saveAllProjectsFromDOM() {
     const title = card.querySelector('.proj-input-title').value.trim();
     const category = card.querySelector('.proj-input-category').value.trim();
     let liveUrl = card.querySelector('.proj-input-url').value.trim();
-    if (liveUrl && !liveUrl.startsWith('http://') && !liveUrl.startsWith('https://')) {
+    if (liveUrl && liveUrl !== '#' && !/^https?:\/\//i.test(liveUrl)) {
       liveUrl = 'https://' + liveUrl;
     }
     const img = card.querySelector('.proj-input-img').value.trim();
@@ -1146,11 +1158,16 @@ function initReviewsModule() {
     newRevForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      const author = document.getElementById('newRevAuthor').value.trim();
-      const role = document.getElementById('newRevRole').value.trim();
-      const metric = document.getElementById('newRevMetric').value.trim() || 'Top Quality';
+      const author = (document.getElementById('newRevAuthor').value || '').trim();
+      if (!author) {
+        showToast('Please enter the client name', 'error');
+        document.getElementById('newRevAuthor').focus();
+        return;
+      }
+      const role = (document.getElementById('newRevRole').value || '').trim() || 'Client Partner';
+      const metric = (document.getElementById('newRevMetric').value || '').trim() || 'Top Quality';
       const rating = parseInt(document.getElementById('newRevRating').value, 10) || 5;
-      const quote = document.getElementById('newRevQuote').value.trim();
+      const quote = (document.getElementById('newRevQuote').value || '').trim() || 'Outstanding collaboration and delivery.';
 
       const reviews = getStorageItem('lenora_reviews_list', DEFAULT_REVIEWS);
       reviews.push({

@@ -47,17 +47,17 @@
       </div>
 
       <!-- Auth Form -->
-      <form id="adminLoginForm" class="admin-login-form">
+      <form id="adminLoginForm" class="admin-login-form" novalidate>
         <div id="authNotice" class="auth-notice" style="display: none;"></div>
 
         <div class="form-group">
           <label for="loginEmail">Director / Admin Email</label>
-          <input type="email" id="loginEmail" required autocomplete="username" value="admin@agency.com">
+          <input type="text" id="loginEmail" autocomplete="username" value="admin@agency.com">
         </div>
 
         <div class="form-group">
           <label for="loginPassword">Master Secret Key / Password</label>
-          <input type="password" id="loginPassword" required autocomplete="current-password" value="admin123">
+          <input type="password" id="loginPassword" autocomplete="current-password" value="admin123">
         </div>
 
         <button type="submit" class="btn-admin-primary full-width" id="btnLoginSubmit">
@@ -252,21 +252,24 @@
             <h3>✦ Add New Client Showcase Project</h3>
             <button type="button" class="btn-admin-subtle small" id="btnCloseNewProjectBox">✕ Cancel</button>
           </div>
-          <form id="newProjectForm" class="admin-grid-form" style="margin-top: 16px;">
+          <form id="newProjectForm" class="admin-grid-form" style="margin-top: 16px;" novalidate>
             <div class="form-group">
               <label for="newProjTitle">Project Title <span class="req">*</span></label>
               <input type="text" id="newProjTitle" placeholder="e.g. Aura Studio — High Fashion Brand" required>
             </div>
             <div class="form-group">
-              <label for="newProjCategory">Category / Industry <span class="req">*</span></label>
-              <input type="text" id="newProjCategory" placeholder="e.g. Fashion & Editorial" required>
+              <label for="newProjCategory">Category / Industry</label>
+              <input type="text" id="newProjCategory" placeholder="e.g. Fashion & Editorial">
             </div>
             <div class="form-group full-width">
-              <label for="newProjLiveUrl">Project Live Website URL (Where clicks should navigate) <span class="req">*</span></label>
+              <label for="newProjLiveUrl">Project Live Website URL (Where clicks should navigate)</label>
               <div class="input-with-action">
-                <input type="url" id="newProjLiveUrl" placeholder="https://example.com/client-website" required>
+                <input type="text" id="newProjLiveUrl" placeholder="e.g. lenoradevelopers.com or https://clientwebsite.com">
                 <button type="button" class="btn-admin-subtle small" id="btnTestNewProjUrl" title="Test link in new tab">🔗 Test Link ↗</button>
               </div>
+              <small style="color: var(--text-muted); font-size: 11px; margin-top: 4px; display: block;">
+                Any link format accepted (e.g. clientwebsite.com or https://clientwebsite.com). Automatically adds https://. Leave blank if not yet live.
+              </small>
             </div>
             <div class="form-group">
               <label for="newProjBadgeText">HUD Stat Badge</label>
@@ -289,8 +292,8 @@
               <input type="text" id="newProjTags" placeholder="e.g. Online Store, 3D Mockup, Mobile Checkout">
             </div>
             <div class="form-group full-width">
-              <label for="newProjDesc">Project Description / Summary <span class="req">*</span></label>
-              <textarea id="newProjDesc" rows="3" placeholder="Brief summary of what was built, key technologies, and client outcome..." required></textarea>
+              <label for="newProjDesc">Project Description / Summary</label>
+              <textarea id="newProjDesc" rows="3" placeholder="Brief summary of what was built, key technologies, and client outcome..."></textarea>
             </div>
             <div class="form-group full-width" style="display:flex; justify-content:flex-end; gap:12px;">
               <button type="button" class="btn-admin-subtle" id="btnCancelNewProject">Cancel</button>
@@ -338,7 +341,7 @@
           </button>
         </div>
 
-        <form id="siteContentForm" class="admin-grid-form">
+        <form id="siteContentForm" class="admin-grid-form" novalidate>
           <div class="form-section-title">Hero Section (Photo Background & Text)</div>
 
           <div class="form-group">
@@ -424,7 +427,7 @@
 
           <div class="form-group">
             <label for="inputIgUrl">Instagram Direct Profile URL</label>
-            <input type="url" id="inputIgUrl" value="https://www.instagram.com/lenoradevelopers?exln=MW5uaGplNTByZzE3eA==">
+            <input type="text" id="inputIgUrl" value="https://www.instagram.com/lenoradevelopers?exln=MW5uaGplNTByZzE3eA==">
           </div>
 
           <div class="form-group full-width">
@@ -482,7 +485,7 @@
             <h3>✦ Add Client Testimonial</h3>
             <button type="button" class="btn-admin-subtle small" id="btnCloseNewReviewBox">✕ Cancel</button>
           </div>
-          <form id="newReviewForm" class="admin-grid-form" style="margin-top: 16px;">
+          <form id="newReviewForm" class="admin-grid-form" style="margin-top: 16px;" novalidate>
             <div class="form-group">
               <label for="newRevAuthor">Client Name <span class="req">*</span></label>
               <input type="text" id="newRevAuthor" placeholder="e.g. Sarah Jenkins" required>
@@ -606,7 +609,7 @@
           <div id="supabaseConfigFields" class="provider-fields">
             <div class="form-group full-width">
               <label for="inputSupabaseUrl">Supabase Project URL</label>
-              <input type="url" id="inputSupabaseUrl" placeholder="https://your-project.supabase.co">
+              <input type="text" id="inputSupabaseUrl" placeholder="https://your-project.supabase.co">
             </div>
             <div class="form-group full-width">
               <label for="inputSupabaseAnonKey">Supabase Anon Public Key</label>
