@@ -1,17 +1,17 @@
 {
   "siteContent": {
-    "brandName": "LENORA <span>DEVELOPERS</span>",
-    "eyebrow": "Accepting Select Client Projects · 2026",
-    "headline": "Websites that make an unforgettable first impression.",
-    "subcopy": "We design and build bespoke, ultra-fast websites for ambitious businesses. No bloated templates — just pure craftsmanship, clean code, and relentless attention to detail.",
+    "brandName": "LENORA DEVELOPERS",
+    "eyebrow": "Independent Web Agency",
+    "headline": "Building beyond expectations ",
+    "subcopy": "Custom web design, interactive 3D touches, and lightning-fast engineering for ambitious brands and creative founders.",
     "ctaText": "Start a project",
-    "heroImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2560&q=85",
-    "heroBgImage": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2560&q=85",
-    "standard01": "Sub-1s Load",
-    "standard02": "100% Bespoke",
-    "standard03": "Mobile First",
-    "aboutHeading": "Simple, honest websites that work.",
-    "aboutLead": "We are an independent web design & development studio. We don't use confusing jargon or bloated templates. We craft fast, clear websites that turn visitors into paying customers.",
+    "heroImage": "assets/hero-banner.png",
+    "heroBgImage": "assets/hero-banner.png",
+    "standard01": "Hand-Crafted Code",
+    "standard02": "Under 1s Load Time",
+    "standard03": "Mobile-First Native",
+    "aboutHeading": "Building websites the honest way.",
+    "aboutLead": "We founded Lenora Developers with a simple belief: businesses deserve fast, bespoke, beautifully engineered websites without the bloat of clumsy page builders.",
     "email": "lenoradevelopersind@gmail.com",
     "location": "Global Remote Working",
     "igHandle": "@lenoradevelopers",
@@ -20,52 +20,34 @@
   },
   "projects": [
     {
-      "id": "proj_01",
+      "id": "proj_1794761386509",
       "num": "01",
-      "title": "Objects for Living — Curated Store",
-      "category": "Home & Lifestyle Goods",
-      "badgeType": "E-Commerce",
-      "badgeText": "+42% Online Sales",
-      "desc": "An artisan lifestyle brand selling handcrafted ceramic and wooden objects. Features smooth 3D product previews and a seamless checkout experience.",
-      "img": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80",
-      "liveUrl": "https://example.com/objects-for-living",
-      "tags": ["Online Store", "Product Storytelling", "Mobile Checkout"]
-    },
-    {
-      "id": "proj_02",
-      "num": "02",
-      "title": "Form & Space — Architecture Studio",
-      "category": "Design & Architecture",
+      "title": "portfolio website",
+      "category": "Portfolio",
+      "liveUrl": "https://portfolio.rahulmukeshbuilds.workers.dev",
+      "img": "assets/portfolio-website.jpg",
+      "badgeText": "+100% Growth",
       "badgeType": "Portfolio",
-      "badgeText": "Architecture Studio",
-      "desc": "A clean, editorial portfolio for a boutique architecture practice. Full-bleed gallery imagery, fluid mobile transitions, and an interactive spatial project index.",
-      "img": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
-      "liveUrl": "https://example.com/form-and-space",
-      "tags": ["Creative Portfolio", "Editorial Typography", "Interactive Gallery"]
+      "tags": [
+        "Student Portfolio Website"
+      ],
+      "desc": "An complete portfolio website with services"
     },
     {
-      "id": "proj_03",
-      "num": "03",
-      "title": "Pulse Analytics — Business Dashboard",
-      "category": "SaaS & Analytics",
-      "badgeType": "Web Application",
-      "badgeText": "Real-Time Data",
-      "desc": "A clear, uncluttered dashboard for founders to monitor their core metrics. Fast data rendering, accessible contrast, and zero confusing clutter.",
-      "img": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80",
-      "liveUrl": "https://example.com/pulse-analytics",
-      "tags": ["Web Application", "Clean Data Views", "Fast Performance"]
-    },
-    {
-      "id": "proj_04",
-      "num": "04",
-      "title": "Flour & Stone — Artisanal Bakery",
-      "category": "Bakery & Café",
-      "badgeType": "Local Business",
-      "badgeText": "3.4x Booking Lift",
-      "desc": "A warm, inviting website for an artisan sourdough bakery. Includes online pre-orders, daily seasonal menus, and a direct inquiry form for private catering events.",
-      "img": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80",
-      "liveUrl": "https://example.com/flour-and-stone",
-      "tags": ["Business Website", "Online Ordering", "Local SEO"]
+      "id": "proj_01",
+      "num": "02",
+      "title": "GREY ROUTE",
+      "category": "Clothing online store",
+      "liveUrl": "https://www.greyroute.in",
+      "img": "assets/grey-route.jpg",
+      "badgeText": "",
+      "badgeType": "E-Commerce",
+      "tags": [
+        "Online Store",
+        "Product Storytelling",
+        "Mobile Checkout"
+      ],
+      "desc": "an high end online e-commerce store"
     }
   ],
   "services": [
@@ -74,76 +56,100 @@
       "category": "Design",
       "title": "Web Design & Art Direction",
       "desc": "Custom designs tailored specifically to your brand. Clean typography, generous whitespace, and intuitive navigation that your customers will love using.",
-      "features": ["Custom Figma design mockups", "Mobile-first layout design", "Brand colors & typography systems"]
+      "features": [
+        "Custom Figma design mockups",
+        "Mobile-first layout design",
+        "Brand colors & typography systems"
+      ]
     },
     {
       "num": "02",
       "category": "Engineering",
       "title": "Frontend & Full-Stack Development",
       "desc": "Hand-coded websites built from scratch. Lightning-fast load times, zero unnecessary plugins, and clean code that is easy to maintain and grow over time.",
-      "features": ["Semantic, accessible HTML & CSS", "Modern JavaScript without bloat", "Sub-second page transitions"]
+      "features": [
+        "Semantic, accessible HTML & CSS",
+        "Modern JavaScript without bloat",
+        "Sub-second page transitions"
+      ]
     },
     {
       "num": "03",
       "category": "Commerce",
       "title": "E-Commerce & Digital Stores",
-      "desc": "High-converting online shops built for smooth browsing and frictionless checkout. Designed to showcase your products beautifully on every device.",
-      "features": ["Seamless mobile checkout flows", "Fast catalog filtering & search", "Secure payment integrations"]
+      "desc": "High-converting online shops designed to turn visitors into repeat buyers. Smooth product catalogs, quick mobile checkouts, and clean payment flows.",
+      "features": [
+        "Streamlined cart & checkout",
+        "High-res product visual galleries",
+        "Inventory & order management"
+      ]
     },
     {
       "num": "04",
-      "category": "Performance",
-      "title": "Speed Optimization & Core Vitals",
-      "desc": "Audit and transform slow, sluggish websites into fast, responsive experiences. Improved load times mean higher search rankings and happier visitors.",
-      "features": ["Sub-second initial render", "Asset compression & modern WebP", "95+ Google PageSpeed scores"]
+      "category": "Growth",
+      "title": "Speed, SEO & Search Optimization",
+      "desc": "Get found easily on Google. We optimize site structure, page titles, meta descriptions, and load speeds so your business climbs local search rankings.",
+      "features": [
+        "Google Core Web Vitals 95+",
+        "Structured Schema markup",
+        "Search-friendly semantic URLs"
+      ]
     },
     {
       "num": "05",
-      "category": "Visibility",
-      "title": "Search Engine Optimization (SEO)",
-      "desc": "Built-in technical SEO that helps search engines understand and rank your website. Clean structure, meta tags, and structured schema data.",
-      "features": ["Clean URL architecture", "Open Graph & social sharing cards", "XML sitemaps & search console setup"]
+      "category": "Partnership",
+      "title": "Maintenance & Ongoing Support",
+      "desc": "You won't be left on your own after launch. We provide regular updates, security checks, and quick turnarounds whenever you want to add new content.",
+      "features": [
+        "Quick updates whenever you need them",
+        "Regular security & browser checks",
+        "Direct founder communication"
+      ]
     },
     {
       "num": "06",
-      "category": "Care",
-      "title": "Maintenance & Ongoing Support",
-      "desc": "Reliable ongoing support so you never have to worry about your website going down. Fast updates, regular backups, and friendly assistance whenever you need it.",
-      "features": ["Fast turnaround on edits", "Security monitoring & updates", "Direct WhatsApp & email communication"]
+      "category": "Admin & Tools",
+      "title": "Private Admin Portals & Tools",
+      "desc": "Simple backends and admin portals built specifically for your needs. Update your photos, text, and review customer inquiries anytime without touching code.",
+      "features": [
+        "Custom admin dashboard for you",
+        "Real-time client leads & inquiries",
+        "Easy photo & text updates"
+      ]
     }
   ],
   "reviews": [
     {
-      "id": "rev_01",
-      "author": "Elena Rostova",
-      "role": "Founder, Studio Atelier",
-      "metric": "+140% Sales",
-      "rating": 5,
-      "quote": "Working with Lenora Developers completely transformed our online presence. Our mobile conversion rate jumped by 140% within the first month alone."
-    },
-    {
-      "id": "rev_02",
+      "id": "rev_1",
       "author": "Marcus Vance",
-      "role": "Creative Director, Vance Media",
-      "metric": "100/100 Speed",
+      "role": "Founder, Vance Living",
+      "quote": "They rebuilt our website to be completely mobile-friendly. Bounce rate dropped 45% and our inquiries doubled within weeks.",
       "rating": 5,
-      "quote": "The speed and craftsmanship are unmatched. No WordPress bloat, just razor-sharp design that our clients constantly compliment."
+      "metric": "+140% Mobile Sales"
     },
     {
-      "id": "rev_03",
-      "author": "Sarah Jenkins",
-      "role": "Owner, Flour & Stone Café",
-      "metric": "3.4x Pre-Orders",
+      "id": "rev_2",
+      "author": "Elena Rostova",
+      "role": "Partner, Rostova Design",
+      "quote": "No bloated WordPress templates. Pure, fast, handcrafted code that looks incredible on retina phone screens.",
       "rating": 5,
-      "quote": "Our customers love ordering on their phones now. Clean typography, smooth transitions, and catering inquiries poured in."
+      "metric": "<300ms Load Time"
     },
     {
-      "id": "rev_04",
-      "author": "Julian Hayes",
-      "role": "Partner, Studio Veloce",
-      "metric": "Top PageSpeed",
+      "id": "rev_3",
+      "author": "Julian Thorne",
+      "role": "Director, Thorne Bakery",
+      "quote": "Our customers love ordering on their phones now. Clean typography, smooth transitions, and catering inquiries poured in.",
       "rating": 5,
-      "quote": "No bloated WordPress templates. Pure, fast, handcrafted code that looks incredible on retina phone screens."
+      "metric": "Doubled Inquiries"
+    },
+    {
+      "id": "rev_4",
+      "author": "Sofia Lindqvist",
+      "role": "Principal, Studio Form",
+      "quote": "The 3D perspective touches and tactile stone layout gave our studio an unfair advantage when pitching international clients.",
+      "rating": 5,
+      "metric": "Top PageSpeed"
     }
   ]
 }

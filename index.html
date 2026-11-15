@@ -105,7 +105,7 @@
          HERO SECTION: ARCHITECTURAL ASYMMETRIC SPLIT HERO WITH 3D TILT SHOWCASE
          ========================================================================== -->
     <section class="hero-photo-stage" id="hero" aria-label="Introduction">
-      <div class="hero-photo-backdrop" id="heroPhotoBackdrop" style="background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2560&q=85');"></div>
+      <div class="hero-photo-backdrop" id="heroPhotoBackdrop" style="background-image: url('assets/hero-banner.png');"></div>
       <div class="hero-photo-scrim" aria-hidden="true"></div>
 
       <div class="container hero-photo-container">
@@ -116,7 +116,7 @@
             
             <div class="hero-eyebrow-chip">
               <span class="hero-pulse-dot"></span>
-              <span id="heroEyebrow">Accepting Select Client Projects · 2026</span>
+              <span id="heroEyebrow">Independent Web Agency</span>
             </div>
 
             <div class="hero-brand-callout">
@@ -125,11 +125,11 @@
             </div>
 
             <h1 class="hero-monumental-headline" id="heroMainHeadline">
-              Websites crafted to leave a lasting impression.
+              Building beyond expectations
             </h1>
 
             <p class="hero-sublead-text" id="heroSubcopy">
-              Independent web design and engineering studio. We partner with founders, brands, and creators to build high-speed digital experiences that look stunning on every phone screen.
+              Custom web design, interactive 3D touches, and lightning-fast engineering for ambitious brands and creative founders.
             </p>
 
             <div class="hero-actions-row">
@@ -185,7 +185,7 @@
 
               <!-- Main Project Mockup Viewport -->
               <div class="hero-card-viewport">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=85" alt="Lenora Developers Featured Project Preview" class="hero-card-img" id="heroFeaturedImage">
+                <img src="assets/hero-banner.png" alt="Lenora Developers Featured Project Preview" class="hero-card-img" id="heroFeaturedImage">
                 <div class="hero-card-overlay-gradient"></div>
 
                 <!-- Floating Parallax Chip 1 (Top Right) -->
@@ -429,27 +429,63 @@
 
         <div class="glass-showcase-grid" id="projectsShowcaseGrid">
           
-          <!-- Project 01: Brand & E-commerce -->
+          <!-- Project 01: Portfolio Website -->
           <article class="glass-project-card" id="project01">
-            <a href="https://example.com/objects-for-living" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open Objects for Living website">
+            <a href="https://portfolio.rahulmukeshbuilds.workers.dev" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open portfolio website">
               <div class="project-viewport-frame">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80" alt="Brand & E-commerce" class="project-img" id="imgProject01">
+                <img src="assets/portfolio-website.jpg" alt="portfolio website" class="project-img" id="imgProject01">
                 <div class="viewport-hud-overlay">
-                  <span class="glass-chip-badge">E-Commerce</span>
-                  <span class="glass-chip-badge dark">+42% Online Sales</span>
+                  <span class="glass-chip-badge">Portfolio</span>
+                  <span class="glass-chip-badge dark">+100% Growth</span>
                 </div>
               </div>
             </a>
             <div class="project-content-pane">
               <div class="project-meta-row">
                 <span class="project-num">Project 01</span>
-                <span>Home & Lifestyle Goods</span>
+                <span>Portfolio</span>
               </div>
               <h3 class="project-title" id="titleProject01">
-                <a href="https://example.com/objects-for-living" target="_blank" rel="noopener noreferrer" class="project-title-link">Objects for Living — Curated Store ↗</a>
+                <a href="https://portfolio.rahulmukeshbuilds.workers.dev" target="_blank" rel="noopener noreferrer" class="project-title-link">portfolio website ↗</a>
               </h3>
               <p class="project-summary" id="descProject01">
-                An artisan lifestyle brand selling handcrafted ceramic and wooden objects. Features smooth 3D product previews and a seamless checkout experience.
+                An complete portfolio website with services
+              </p>
+              <div class="project-tags-row">
+                <span class="tag-pill">Student Portfolio Website</span>
+              </div>
+              <div class="project-actions-row">
+                <a href="https://portfolio.rahulmukeshbuilds.workers.dev" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject01">
+                  <span>View Live Project ↗</span>
+                </a>
+                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('portfolio website')">
+                  <span>Build something like this ↗</span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Project 02: GREY ROUTE -->
+          <article class="glass-project-card" id="project02">
+            <a href="https://www.greyroute.in" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open GREY ROUTE website">
+              <div class="project-viewport-frame">
+                <img src="assets/grey-route.jpg" alt="GREY ROUTE" class="project-img" id="imgProject02">
+                <div class="viewport-hud-overlay">
+                  <span class="glass-chip-badge">E-Commerce</span>
+                  <span class="glass-chip-badge dark">Online Store</span>
+                </div>
+              </div>
+            </a>
+            <div class="project-content-pane">
+              <div class="project-meta-row">
+                <span class="project-num">Project 02</span>
+                <span>Clothing online store</span>
+              </div>
+              <h3 class="project-title" id="titleProject02">
+                <a href="https://www.greyroute.in" target="_blank" rel="noopener noreferrer" class="project-title-link">GREY ROUTE ↗</a>
+              </h3>
+              <p class="project-summary" id="descProject02">
+                an high end online e-commerce store
               </p>
               <div class="project-tags-row">
                 <span class="tag-pill">Online Store</span>
@@ -457,124 +493,10 @@
                 <span class="tag-pill">Mobile Checkout</span>
               </div>
               <div class="project-actions-row">
-                <a href="https://example.com/objects-for-living" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject01">
+                <a href="https://www.greyroute.in" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject02">
                   <span>View Live Project ↗</span>
                 </a>
-                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Objects for Living')">
-                  <span>Build something like this ↗</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 02: Creative Portfolio -->
-          <article class="glass-project-card" id="project02">
-            <a href="https://example.com/form-and-space" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open Form & Space website">
-              <div class="project-viewport-frame">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80" alt="Creative Portfolio" class="project-img" id="imgProject02">
-                <div class="viewport-hud-overlay">
-                  <span class="glass-chip-badge">Portfolio</span>
-                  <span class="glass-chip-badge dark">Architecture Studio</span>
-                </div>
-              </div>
-            </a>
-            <div class="project-content-pane">
-              <div class="project-meta-row">
-                <span class="project-num">Project 02</span>
-                <span>Design & Architecture</span>
-              </div>
-              <h3 class="project-title" id="titleProject02">
-                <a href="https://example.com/form-and-space" target="_blank" rel="noopener noreferrer" class="project-title-link">Form & Space — Architecture Studio ↗</a>
-              </h3>
-              <p class="project-summary" id="descProject02">
-                A clean, editorial portfolio for a boutique architecture practice. Full-bleed gallery imagery, fluid mobile transitions, and an interactive spatial project index.
-              </p>
-              <div class="project-tags-row">
-                <span class="tag-pill">Creative Portfolio</span>
-                <span class="tag-pill">Editorial Typography</span>
-                <span class="tag-pill">Interactive Gallery</span>
-              </div>
-              <div class="project-actions-row">
-                <a href="https://example.com/form-and-space" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject02">
-                  <span>View Live Project ↗</span>
-                </a>
-                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Form & Space')">
-                  <span>Build something like this ↗</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 03: Business Dashboard -->
-          <article class="glass-project-card" id="project03">
-            <a href="https://example.com/pulse-analytics" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open Pulse Analytics website">
-              <div class="project-viewport-frame">
-                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80" alt="Business Dashboard" class="project-img" id="imgProject03">
-                <div class="viewport-hud-overlay">
-                  <span class="glass-chip-badge">Web Application</span>
-                  <span class="glass-chip-badge dark">Real-Time Data</span>
-                </div>
-              </div>
-            </a>
-            <div class="project-content-pane">
-              <div class="project-meta-row">
-                <span class="project-num">Project 03</span>
-                <span>SaaS & Analytics</span>
-              </div>
-              <h3 class="project-title" id="titleProject03">
-                <a href="https://example.com/pulse-analytics" target="_blank" rel="noopener noreferrer" class="project-title-link">Pulse Analytics — Business Dashboard ↗</a>
-              </h3>
-              <p class="project-summary" id="descProject03">
-                A clear, uncluttered dashboard for founders to monitor their core metrics. Fast data rendering, accessible contrast, and zero confusing clutter.
-              </p>
-              <div class="project-tags-row">
-                <span class="tag-pill">Web Application</span>
-                <span class="tag-pill">Clean Data Views</span>
-                <span class="tag-pill">Fast Performance</span>
-              </div>
-              <div class="project-actions-row">
-                <a href="https://example.com/pulse-analytics" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject03">
-                  <span>View Live Project ↗</span>
-                </a>
-                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Pulse Analytics')">
-                  <span>Build something like this ↗</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 04: Local Business Site -->
-          <article class="glass-project-card" id="project04">
-            <a href="https://example.com/flour-and-stone" target="_blank" rel="noopener noreferrer" class="project-viewport-link" title="Open Flour & Stone website">
-              <div class="project-viewport-frame">
-                <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200&q=80" alt="Local Business Site" class="project-img" id="imgProject04">
-                <div class="viewport-hud-overlay">
-                  <span class="glass-chip-badge">Local Business</span>
-                  <span class="glass-chip-badge dark">3.4x Booking Lift</span>
-                </div>
-              </div>
-            </a>
-            <div class="project-content-pane">
-              <div class="project-meta-row">
-                <span class="project-num">Project 04</span>
-                <span>Bakery & Café</span>
-              </div>
-              <h3 class="project-title" id="titleProject04">
-                <a href="https://example.com/flour-and-stone" target="_blank" rel="noopener noreferrer" class="project-title-link">Flour & Stone — Artisanal Bakery ↗</a>
-              </h3>
-              <p class="project-summary" id="descProject04">
-                A warm, inviting website for an artisan sourdough bakery. Includes online pre-orders, daily seasonal menus, and a direct inquiry form for private catering events.
-              </p>
-              <div class="project-tags-row">
-                <span class="tag-pill">Business Website</span>
-                <span class="tag-pill">Online Ordering</span>
-                <span class="tag-pill">Local SEO</span>
-              </div>
-              <div class="project-actions-row">
-                <a href="https://example.com/flour-and-stone" target="_blank" rel="noopener noreferrer" class="btn-project-visit" id="linkProject04">
-                  <span>View Live Project ↗</span>
-                </a>
-                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('Flour & Stone')">
+                <a href="#contact" class="btn-solid-primary small" onclick="prefillProjectInquiry('GREY ROUTE')">
                   <span>Build something like this ↗</span>
                 </a>
               </div>
