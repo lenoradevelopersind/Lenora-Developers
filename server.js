@@ -23,6 +23,14 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
+  const urlParts = req.url.split('?');
+  const reqPath = decodeURI(urlParts[0]);
+
+  // Log requests for transparency
+  if (!reqPath.includes('.ico')) {
+    console.log(`[${new Date().toLocaleTimeString()}] ${req.method} ${reqPath}`);
+  }
+
   // CORS Headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -33,9 +41,6 @@ const server = http.createServer((req, res) => {
     res.end();
     return;
   }
-
-  const urlParts = req.url.split('?');
-  const reqPath = decodeURI(urlParts[0]);
 
   // API Endpoints for Admin Content Persistence
   if (reqPath === '/api/get-content' && req.method === 'GET') {
@@ -63,6 +68,7 @@ const server = http.createServer((req, res) => {
           fs.mkdirSync(dataDir, { recursive: true });
         }
         fs.writeFileSync(DATA_FILE, JSON.stringify(parsed, null, 2), 'utf8');
+        console.log(`[DISK SAVE] data/site-content.json successfully updated! Projects: ${parsed.projects?.length || 0}`);
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ success: true, message: 'Saved to data/site-content.json on disk' }));
       } catch (err) {
