@@ -53,9 +53,9 @@
   "services": [
     {
       "num": "01",
-      "category": "Design",
-      "title": "Web Design & Art Direction",
-      "desc": "Custom designs tailored specifically to your brand. Clean typography, generous whitespace, and intuitive navigation that your customers will love using.",
+      "category": "UI/UX & Design",
+      "title": "Web Design",
+      "desc": "Bespoke visual design tailored specifically to your brand. Clean typography, generous whitespace, and mobile-first layouts that your customers will love using.",
       "features": [
         "Custom Figma design mockups",
         "Mobile-first layout design",
@@ -65,30 +65,41 @@
     {
       "num": "02",
       "category": "Engineering",
-      "title": "Frontend & Full-Stack Development",
-      "desc": "Hand-coded websites built from scratch. Lightning-fast load times, zero unnecessary plugins, and clean code that is easy to maintain and grow over time.",
+      "title": "Custom Web Development",
+      "desc": "Hand-coded websites and web applications built from scratch. Lightning-fast load times, zero unnecessary plugins, and clean code that is easy to maintain.",
       "features": [
+        "Sub-second page load performance",
         "Semantic, accessible HTML & CSS",
-        "Modern JavaScript without bloat",
-        "Sub-second page transitions"
+        "Interactive 3D WebGL features"
       ]
     },
     {
       "num": "03",
-      "category": "Commerce",
-      "title": "E-Commerce & Digital Stores",
+      "category": "Digital Commerce",
+      "title": "E-Commerce and Online Store",
       "desc": "High-converting online shops designed to turn visitors into repeat buyers. Smooth product catalogs, quick mobile checkouts, and clean payment flows.",
       "features": [
-        "Streamlined cart & checkout",
+        "Streamlined cart & checkout flows",
         "High-res product visual galleries",
-        "Inventory & order management"
+        "Inventory & secure payment sync"
       ]
     },
     {
       "num": "04",
-      "category": "Growth",
-      "title": "Speed, SEO & Search Optimization",
-      "desc": "Get found easily on Google. We optimize site structure, page titles, meta descriptions, and load speeds so your business climbs local search rankings.",
+      "category": "Shopify Partner",
+      "title": "Shopify Store Development and Management",
+      "desc": "End-to-end Shopify store setup, custom theme coding, product catalog structuring, app integrations, and hands-off ongoing store management.",
+      "features": [
+        "Custom Liquid theme development",
+        "App setup & checkout optimization",
+        "Catalog management & speed audits"
+      ]
+    },
+    {
+      "num": "05",
+      "category": "Visibility & SEO",
+      "title": "Search Engine Optimization",
+      "desc": "Get found easily on Google. We optimize site architecture, metadata, schema markup, and Core Web Vitals so your business climbs search rankings.",
       "features": [
         "Google Core Web Vitals 95+",
         "Structured Schema markup",
@@ -96,25 +107,47 @@
       ]
     },
     {
-      "num": "05",
-      "category": "Partnership",
-      "title": "Maintenance & Ongoing Support",
+      "num": "06",
+      "category": "Care & Security",
+      "title": "Maintenance and Ongoing Support",
       "desc": "You won't be left on your own after launch. We provide regular updates, security checks, and quick turnarounds whenever you want to add new content.",
       "features": [
         "Quick updates whenever you need them",
-        "Regular security & browser checks",
+        "Regular security & browser audits",
         "Direct founder communication"
       ]
     },
     {
-      "num": "06",
+      "num": "07",
       "category": "Admin & Tools",
-      "title": "Private Admin Portals & Tools",
-      "desc": "Simple backends and admin portals built specifically for your needs. Update your photos, text, and review customer inquiries anytime without touching code.",
+      "title": "Private Admin Portals and Tools",
+      "desc": "Simple backends and custom admin portals built specifically for your needs. Update your photos, text, and review customer inquiries without touching code.",
       "features": [
         "Custom admin dashboard for you",
         "Real-time client leads & inquiries",
         "Easy photo & text updates"
+      ]
+    },
+    {
+      "num": "08",
+      "category": "Hospitality Tech",
+      "title": "Digital Menu for Food Chains",
+      "desc": "Fast, interactive QR-code digital menus for restaurants, cafés, and food chains. Instant mobile loading with zero app download required for customers.",
+      "features": [
+        "Instant QR scan & mobile viewing",
+        "Dynamic item pricing & daily specials",
+        "High-res food visuals & allergy tags"
+      ]
+    },
+    {
+      "num": "09",
+      "category": "Reputation Tech",
+      "title": "Google Review NFC Card for Business",
+      "desc": "Smart contactless tap-to-review NFC cards that let in-person customers leave 5-star Google reviews in 3 seconds directly from their smartphones.",
+      "features": [
+        "Instant 1-tap NFC & backup QR code",
+        "Direct link to Google review box",
+        "Custom branded card with your logo"
       ]
     }
   ],
